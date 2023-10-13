@@ -1,7 +1,16 @@
+using IBGEExplorer.API;
+using IBGEExplorer.API.Extensions;
+using IBGEExplorer.Core.Contexts.Account.Create;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.AddBaseConfiguration();
+builder.AddBaseServices();
+builder.AddServices();
+
 
 var app = builder.Build();
 
@@ -13,11 +22,27 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+app.MapGet("api/v1/account", (Handler handler, string email, string password) =>
+{
+    var result = handler.CreateAccountAsync(email, password);
+    Console.WriteLine("foi");
+});
+
+
+
+
+
+
+
+
+
+
+
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
-
 app.MapGet("/weatherforecast", () =>
 {
     var forecast = Enumerable.Range(1, 5).Select(index =>
