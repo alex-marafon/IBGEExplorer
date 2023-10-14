@@ -22,6 +22,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapGet("api/v1/account", (Handler handler, string email, string password) =>
 {
