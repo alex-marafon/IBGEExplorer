@@ -19,8 +19,10 @@ public static class AppExtension
     }
 
 
-    public static void AddServiceJwt(this WebApplicationBuilder builder)
+    public static void AddBaseServiceJwt(this WebApplicationBuilder builder)
     {
         builder.Services.AddSingleton<IJwtAuthenticationConfigurator, JwtAuthenticationConfigurator>();
     }
+
+
 }

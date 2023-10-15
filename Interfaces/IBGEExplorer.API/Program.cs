@@ -1,16 +1,22 @@
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Core.Contexts.Account.Create;
+using SharedContext.Services.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
-builder.AddServiceJwt();
+
+//Testando Jwt
+builder.AddBaseServiceJwt();
+
 
 var app = builder.Build();
 
@@ -33,34 +39,21 @@ app.MapGet("api/v1/account", (Handler handler, string email, string password) =>
 });
 
 
+app.MapPost("api/v1/login", (TokenService tokenService, string email, string password) =>
+{
+    if (email != "alex@gmail.com" || password != "123456")
+        return Results.NotFound(new { message = "Email ou Senha invalido", succes = false });
 
+    var token = tokenService.GenerateToken(email, password);
 
+    return Results.Ok(new
+    {
+        email = email,
+        password = "",
+        token = token
+    });
 
+});
 
-
-
-//var summaries = new[]
-//{
-//    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-//};
-//app.MapGet("/weatherforecast", () =>
-//{
-//    var forecast = Enumerable.Range(1, 5).Select(index =>
-//        new WeatherForecast
-//        (
-//            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-//            Random.Shared.Next(-20, 55),
-//            summaries[Random.Shared.Next(summaries.Length)]
-//        ))
-//        .ToArray();
-//    return forecast;
-//})
-//.WithName("GetWeatherForecast")
-//.WithOpenApi();
 
 app.Run();
-
-//internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-//{
-//    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-//}

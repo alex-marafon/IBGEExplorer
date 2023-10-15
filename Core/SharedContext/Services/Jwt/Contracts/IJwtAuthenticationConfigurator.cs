@@ -3,6 +3,6 @@
 namespace SharedContext.Services.Jwt.Contracts;
 
 public interface IJwtAuthenticationConfigurator
-{ 
-    void ConfigureJwtAuthentication(IServiceCollection services);
+{
+    void ConfigureJwtAuthentication(IServiceCollection services, string? Issuer, string? Audience);
 }
