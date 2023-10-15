@@ -41,7 +41,7 @@ app.MapGet("api/v1/account", (Handler handler, string email, string password) =>
 
 app.MapPost("api/v1/login", (TokenService tokenService, string email, string password) =>
 {
-    if (email != "alex@gmail.com" || password != "123456")
+    if (email != "alex@gmail.com" || password != "d27c2ddb431a73ddf65b38647709")
         return Results.NotFound(new { message = "Email ou Senha invalido", succes = false });
 
     var token = tokenService.GenerateToken(email, password);

@@ -6,7 +6,7 @@ namespace IBGEExplorer.Tests.Contexts;
 public class JwtTests
 {
     //[Fact]
-    //public void AddServiceJwt_ShouldRegisterIJwtAuthenticationConfigurator()
+    //public void AddServiceJwt_ShouldRegisterIAuthenticationConfigurator()
     //{
     //    // Arrange
     //    var builder = new WebHostBuilder()
@@ -19,7 +19,7 @@ public class JwtTests
     //    var server = new TestServer(builder);
 
     //    // Act
-    //    var configurator = server.Services.GetService<IJwtAuthenticationConfigurator>();
+    //    var configurator = server.Services.GetService<IAuthenticationConfigurator>();
 
     //    // Assert
     //    Assert.NotNull(configurator);

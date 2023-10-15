@@ -2,17 +2,20 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SharedContext.Services.Jwt.Contracts;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 
 namespace SharedContext.Services.Jwt;
 
-public class JwtAuthenticationConfigurator : IJwtAuthenticationConfigurator
+public class AuthenticationConfigurator : IAuthenticationConfigurator
 {
-    public void ConfigureJwtAuthentication(IServiceCollection services,string Issuer , string Audience)
+    public void AuthenticationConfigure(IServiceCollection services)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

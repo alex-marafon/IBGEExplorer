@@ -5,10 +5,12 @@ using SharedContext.Services.Jwt.Contracts;
 using System.Text;
 
 namespace SharedContext.Services.Jwt;
-public class TokenService :ITokenService
-{ 
+public class TokenService : ITokenService
+{
     public string GenerateToken(string Email, string Id)
     {
+        #region Erro na chamada TokenHandler
+
         try
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -25,7 +27,7 @@ public class TokenService :ITokenService
                     SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var token = tokenHandler.CreateToken(tokenDescriptor); //Erro
             return tokenHandler.WriteToken(token);
         }
         catch (Exception e)
@@ -33,5 +35,9 @@ public class TokenService :ITokenService
             Console.WriteLine(e.Message);
             throw;
         }
+
+        #endregion
+
+
     }
 }
