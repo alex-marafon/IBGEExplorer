@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using SharedContext.Services.Jwt.Contracts;
 using System.Text;
 
 namespace SharedContext.Services.Jwt;
 
-public class AuthenticationConfigurator : IAuthenticationConfigurator
+public static class AuthenticationConfigurator// : IAuthenticationConfigurator
 {
-    public void AuthenticationConfigure(IServiceCollection services)
+    public static void AuthenticationConfigure(this IServiceCollection services)
     {
         services.AddAuthentication(x =>
         {

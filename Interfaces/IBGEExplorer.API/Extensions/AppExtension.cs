@@ -1,6 +1,4 @@
 ﻿using SharedContext;
-using SharedContext.Services.Jwt;
-using SharedContext.Services.Jwt.Contracts;
 using SharedContext.Services.Log;
 using SharedContext.Services.Log.Contracts;
 
@@ -18,12 +16,5 @@ public static class AppExtension
         builder.Services.AddSingleton<ILoggerService, LogService>();
     }
 
-
-    public static void AddBaseServiceJwt(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddSingleton<IAuthenticationConfigurator, AuthenticationConfigurator>();
-        builder.Services.AddSingleton<IAuthorizationConfigurator, AuthorizationConfigurator>();
-    }
-
-
+    
 }

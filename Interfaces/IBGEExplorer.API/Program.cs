@@ -8,16 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//add services de authentication e authorization
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorization();
-
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
 
-//Esta implementação esta falto algo nao esta injetando.
-builder.AddBaseServiceJwt();
+builder.Services.AuthenticationConfigure();
+builder.Services.AuthorizationConfigure();
 
 var app = builder.Build();
 

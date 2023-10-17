@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SharedContext.Services.Jwt.Contracts;
 
 namespace SharedContext.Services.Jwt;
 
-public class AuthorizationConfigurator : IAuthorizationConfigurator
+public static class AuthorizationConfigurator //: IAuthorizationConfigurator
 {
-    public void AuthorizationConfigure(IServiceCollection services)
+    public static void AuthorizationConfigure(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
         {
