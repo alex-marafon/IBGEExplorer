@@ -24,23 +24,24 @@ public class AuthenticationConfigurator : IAuthenticationConfigurator
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    //ValidIssuer = Issuer,
-                    //ValidAudience = Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings.secret))
                 };
-                options.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = context =>
-                    {
-                        Console.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = context =>
-                    {
-                        Console.WriteLine("OnTokenValidated: " + context.SecurityToken);
-                        return Task.CompletedTask;
-                    }
-                };
+                
+                //Verificar com time se é viavel devolver ao usuario, notificar no discord ou ambos
+
+                //options.Events = new JwtBearerEvents
+                //{
+                //    OnAuthenticationFailed = context =>
+                //    {
+                //        Console.WriteLine("OnAuthenticationFailed: " + context.Exception.Message);
+                //        return Task.CompletedTask;
+                //    },
+                //    OnTokenValidated = context =>
+                //    {
+                //        Console.WriteLine("OnTokenValidated: " + context.SecurityToken);
+                //        return Task.CompletedTask;
+                //    }
+                //};
             });
     }
 }

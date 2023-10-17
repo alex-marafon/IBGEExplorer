@@ -1,7 +1,4 @@
-﻿using SharedContext.Services.Jwt;
-using SharedContext.Services.Jwt.Contracts;
-
-namespace IBGEExplorer.API;
+﻿namespace IBGEExplorer.API;
 
 public static class Context
 {
@@ -9,7 +6,5 @@ public static class Context
     {
         builder.Services.AddTransient<IBGEExplorer.Core.Contexts.Account.Create.Handler>();
         
-        //Services add
-        builder.Services.AddSingleton<ITokenService, TokenService>();
     }
 }

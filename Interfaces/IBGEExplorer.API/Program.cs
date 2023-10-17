@@ -13,10 +13,7 @@ builder.Services.AddAuthorization();
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
-
-//Testando Jwt
 builder.AddBaseServiceJwt();
-
 
 var app = builder.Build();
 
@@ -38,21 +35,15 @@ app.MapGet("api/v1/account", (Handler handler, string email, string password) =>
     Console.WriteLine("foi");
 });
 
-
-app.MapPost("api/v1/login", (TokenService tokenService, string email, string password) =>
+app.MapPost("api/v1/token", ( string email, string password) =>
 {
-    if (email != "alex@gmail.com" || password != "d27c2ddb431a73ddf65b38647709")
-        return Results.NotFound(new { message = "Email ou Senha invalido", succes = false });
-
-    var token = tokenService.GenerateToken(email, password);
-
+    var token = TokenService.GenerateToken(email, password);
     return Results.Ok(new
     {
-        email = email,
-        password = "",
-        token = token
+        Email = email,
+        Password = "",
+        Token = token
     });
-
 });
 
 
