@@ -13,5 +13,6 @@ public class DataContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new UserMap());       
         modelBuilder.ApplyConfiguration(new RoleMap());       
+        modelBuilder.ApplyConfiguration(new UserRoleMap());       
     }
 }

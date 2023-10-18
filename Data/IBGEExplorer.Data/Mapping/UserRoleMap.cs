@@ -33,5 +33,21 @@ public class UserRoleMap : IEntityTypeConfiguration<UserRole>
             .WithMany(user => user.UserRoles)
             .HasConstraintName("Fk_Roles_Users")
             .OnDelete(DeleteBehavior.NoAction);
+
+        InsertData(builder);
+    }
+
+    private void InsertData(EntityTypeBuilder<UserRole> builder)
+    {
+        var role = new List<UserRole>()
+        {
+           new UserRole(){ Id = 1, UserId = 1, RoleId = 1 },
+           new UserRole(){ Id = 1, UserId = 2, RoleId = 2 },
+        };
+
+        role.ForEach(x =>
+        {
+            builder.HasData(x);
+        });
     }
 }

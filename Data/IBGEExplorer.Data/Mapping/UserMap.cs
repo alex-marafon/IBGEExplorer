@@ -36,5 +36,21 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnName("FullName")
             .HasColumnType("NVARCHAR")
             .HasMaxLength(100);
+
+        InsertData(builder);
+    }
+
+    private void InsertData(EntityTypeBuilder<User> builder)
+    {
+        var user = new List<User>()
+        {
+           new User() { Id = 1, CanLogin = true, Email="joao@gmail.com", PasswordHash = "qawsedrf" },
+           new User() { Id = 2, CanLogin = true, Email="pedro@gmail.com", PasswordHash = "qawsedrf" }
+        };
+
+        user.ForEach(x =>
+        {
+            builder.HasData(x);
+        });
     }
 }
