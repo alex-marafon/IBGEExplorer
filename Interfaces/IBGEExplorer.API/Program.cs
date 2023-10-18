@@ -1,6 +1,6 @@
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
-using SharedContext.Services.Jwt;
+using IBGEExplorer.Shared.Services.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,14 +37,6 @@ app.MapPost("api/v1/account", (CreateAccount.Handler handler, CreateAccount.Requ
 
 app.MapPost("api/v1/token", ( string email, string password) =>
 {
-    //recer email e senha.   validar se esta de acordo com regra de negocio.
-    // encriptar senha.
-    //verificar dados no banco (validar)
-    // se "user" CanLogin for false Exception "Usuario nao validou seu cadastro no e-mail"
-    // se usuario valido proxiga
-    // se ok, gerar token.
-
-
     var role = new List<string> { "Admin" };
     var name = "Alex";
 
@@ -57,7 +49,6 @@ app.MapPost("api/v1/token", ( string email, string password) =>
         Roles = role,
     };
 
-
     var token = TokenService.GenerateToken(user.id);
     return Results.Ok(new
     {
@@ -66,6 +57,5 @@ app.MapPost("api/v1/token", ( string email, string password) =>
         Token = token
     });
 });
-
 
 app.Run();

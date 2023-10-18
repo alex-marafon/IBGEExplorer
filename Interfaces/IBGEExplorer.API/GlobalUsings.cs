@@ -1,1 +1,1 @@
-﻿global using CreateAccount = IBGEExplorer.Core.Contexts.Account.Create;
+﻿global using CreateAccount = IBGEExplorer.Account.UseCases.Create;

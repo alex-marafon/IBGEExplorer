@@ -1,6 +1,6 @@
-﻿using SharedContext;
-using SharedContext.Services.Log;
-using SharedContext.Services.Log.Contracts;
+﻿using IBGEExplorer.Shared;
+using IBGEExplorer.Shared.Services.Log;
+using IBGEExplorer.Shared.Services.Log.Contracts;
 
 namespace IBGEExplorer.API.Extensions;
 
@@ -15,6 +15,4 @@ public static class AppExtension
     {
         builder.Services.AddSingleton<ILoggerService, LogService>();
     }
-
-    
 }

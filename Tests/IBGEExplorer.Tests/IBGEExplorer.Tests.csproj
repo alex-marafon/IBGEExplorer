@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\SharedContext\SharedContext.csproj" />
     <ProjectReference Include="..\..\Interfaces\IBGEExplorer.API\IBGEExplorer.API.csproj" />
   </ItemGroup>
 

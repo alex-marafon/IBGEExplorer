@@ -11,8 +11,4 @@
     <Folder Include="Contexts\Localization\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SharedContext\SharedContext.csproj" />
-  </ItemGroup>
-
 </Project>
