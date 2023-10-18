@@ -38,7 +38,7 @@ public class Handler
         {
             user = new User
             {
-                Id = Guid.NewGuid(),
+                Id = 1234,
                 Email = account.Email,
                 PasswordHash = StringEstensions.ToSha256(account.Password),
                 FullName = new Name("Maria", "das Dores")

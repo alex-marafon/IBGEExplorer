@@ -10,17 +10,19 @@ public class UserMap : IEntityTypeConfiguration<User>
     {
         builder.ToTable("User");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
+        builder.Property(x => x.Id)
+            .ValueGeneratedOnAdd()
+            .UseIdentityColumn();
 
         builder.Property(x => x.Email)
             .IsRequired()
             .HasColumnName("Email")
-            .HasColumnType("VARCHAR")
+            .HasColumnType("NVARCHAR")
             .HasMaxLength(100);
 
         builder.Property(x => x.PasswordHash)
             .HasColumnName("PasswordHash")
-            .HasColumnType("VARCHAR")
+            .HasColumnType("NVARCHAR")
             .HasMaxLength(255);
 
         builder.Property(x => x.CanLogin)
@@ -32,7 +34,7 @@ public class UserMap : IEntityTypeConfiguration<User>
         builder.Property(x => x.FullName)
             .IsRequired()
             .HasColumnName("FullName")
-            .HasColumnType("VARCHAR")
+            .HasColumnType("NVARCHAR")
             .HasMaxLength(100);
     }
 }

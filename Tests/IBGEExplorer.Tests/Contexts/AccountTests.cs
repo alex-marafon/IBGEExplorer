@@ -12,7 +12,7 @@ public class AccountTests
     {
         validUser = new User
         {
-            Id = Guid.NewGuid(),
+            Id = 1234,
             Email = "joaoteste@mail.com",
             PasswordHash = StringEstensions.ToSha256("1q2w3e4r@#$"),
             FullName = new Name("João", "da Manga")
