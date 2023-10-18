@@ -42,7 +42,7 @@ public class UserRoleMap : IEntityTypeConfiguration<UserRole>
         var role = new List<UserRole>()
         {
            new UserRole(){ Id = 1, UserId = 1, RoleId = 1 },
-           new UserRole(){ Id = 1, UserId = 2, RoleId = 2 },
+           new UserRole(){ Id = 2, UserId = 2, RoleId = 2 },
         };
 
         role.ForEach(x =>

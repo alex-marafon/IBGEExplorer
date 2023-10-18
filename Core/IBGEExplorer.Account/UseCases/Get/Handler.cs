@@ -18,9 +18,20 @@ public class Handler
     }
     
     //passar um obj como parametro
-    public async Task<User> GetOneByEmailPasswordAsync(string email, string password)
+    public async Task<User?> GetOneByEmailPasswordAsync(string email, string password)
     {
-        var user = await _repository.GetUser(email, password);
+        var user = await _repository.GetUser(email);
+        
+        //melhorar esses IFs
+        if(user == null)
+        {
+            return null;
+        }
+        if(user.PasswordHash != password) // aqui deve usar descript de senha
+        {
+            return null;
+        }
+
         return user;
     }
 }

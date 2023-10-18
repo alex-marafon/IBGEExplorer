@@ -1,10 +1,13 @@
-﻿using IBGEExplorer.Data.Mapping;
+﻿using IBGEExplorer.Account.Entities;
+using IBGEExplorer.Data.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.Data;
 
 public class DataContext : DbContext
 {
+    public DbSet<User> User { get; private set; }
+
     public DataContext(DbContextOptions<DataContext> opt) : base(opt)
     {
     }

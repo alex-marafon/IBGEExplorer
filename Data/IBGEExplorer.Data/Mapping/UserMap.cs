@@ -44,8 +44,8 @@ public class UserMap : IEntityTypeConfiguration<User>
     {
         var user = new List<User>()
         {
-           new User() { Id = 1, CanLogin = true, Email="joao@gmail.com", PasswordHash = "qawsedrf" },
-           new User() { Id = 2, CanLogin = true, Email="pedro@gmail.com", PasswordHash = "qawsedrf" }
+           new User() { Id = 1, CanLogin = true, Email="joao@gmail.com", PasswordHash = "qawsedrf", FullName = "joao da silva" },
+           new User() { Id = 2, CanLogin = true, Email="pedro@gmail.com", PasswordHash = "qawsedrf", FullName = "pedro oliveira" }
         };
 
         user.ForEach(x =>
