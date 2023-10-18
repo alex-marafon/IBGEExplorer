@@ -28,7 +28,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
 app.MapPost("api/v1/account", (CreateAccount.Handler handler, CreateAccount.Request account) =>
 {
     var result = handler.CreateAccountAsync(account);
