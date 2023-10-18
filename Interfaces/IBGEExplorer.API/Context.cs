@@ -7,7 +7,7 @@ public static class Context
 {
     public static void AddServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddTransient<IBGEExplorer.Core.Contexts.Account.Create.Handler>();
+        builder.Services.AddTransient<Account.UseCases.Create.Handler>();
 
         var connectionString = builder.Configuration
             .GetConnectionString("DefaultConnection");

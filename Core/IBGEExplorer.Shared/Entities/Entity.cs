@@ -1,4 +1,4 @@
-﻿namespace IBGEExplorer.Core.Contexts.Shared.Entities;
+﻿namespace IBGEExplorer.Shared.Entities;
 
 public abstract class Entity<T> where T : new()
 {

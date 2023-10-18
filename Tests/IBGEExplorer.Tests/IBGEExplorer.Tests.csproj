@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Interfaces\IBGEExplorer.API\IBGEExplorer.API.csproj" />
+  </ItemGroup>
+
 </Project>

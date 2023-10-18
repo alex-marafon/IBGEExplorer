@@ -1,0 +1,1 @@
+﻿global using CreateAccount = IBGEExplorer.Account.UseCases.Create;

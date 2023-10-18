@@ -1,4 +1,4 @@
-﻿namespace SharedContext;
+﻿namespace IBGEExplorer.Shared;
 
 public static class Configuration
 {
