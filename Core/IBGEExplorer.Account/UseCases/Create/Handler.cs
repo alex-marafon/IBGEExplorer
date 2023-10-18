@@ -1,8 +1,7 @@
-﻿using System.Text.Json;
-using IBGEExplorer.Account.Entities;
+﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Account.UseCases.Create.Contracts;
 using IBGEExplorer.Shared.Extensions;
-using IBGEExplorer.Shared.Services.Log.Contracts;
+using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
 using IBGEExplorer.Shared.ValueObjects;
 

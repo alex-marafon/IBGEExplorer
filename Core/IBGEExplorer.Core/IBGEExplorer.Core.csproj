@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Contexts\FileManager\" />
     <Folder Include="Contexts\Localization\" />
+    <Folder Include="Contexts\Shared\Entities\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿using IBGEExplorer.Data;
+﻿using IBGEExplorer.Account.UseCases.Create.Contracts;
+using IBGEExplorer.Data;
+using IBGEExplorer.Data.Contexts.Account.UseCases.Create;
 using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.API;
@@ -18,5 +20,7 @@ public static class Context
                 builder.AddFilter((category, level) =>
                     level >= LogLevel.Information)));
         });
+
+        builder.Services.AddScoped<IRepository, Repository>();
     }
 }

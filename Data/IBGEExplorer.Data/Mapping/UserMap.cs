@@ -1,14 +1,14 @@
-﻿using IBGEExplorer.Core.Contexts.Shared.Entities;
+﻿using IBGEExplorer.Account.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace IBGEExplorer.Data.Mapping;
 
-public class AccountMap : IEntityTypeConfiguration<Account>
+public class UserMap : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<Account> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable("Account");
+        builder.ToTable("User");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
 
@@ -18,8 +18,8 @@ public class AccountMap : IEntityTypeConfiguration<Account>
             .HasColumnType("VARCHAR")
             .HasMaxLength(100);
 
-        builder.Property(x => x.Password)
-            .HasColumnName("Password")
+        builder.Property(x => x.PasswordHash)
+            .HasColumnName("PasswordHash")
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 
@@ -28,5 +28,11 @@ public class AccountMap : IEntityTypeConfiguration<Account>
             .HasColumnName("CanLogin")
             .HasColumnType("BIT")
             .HasDefaultValue(false);
+
+        builder.Property(x => x.FullName)
+            .IsRequired()
+            .HasColumnName("FullName")
+            .HasColumnType("VARCHAR")
+            .HasMaxLength(100);
     }
 }

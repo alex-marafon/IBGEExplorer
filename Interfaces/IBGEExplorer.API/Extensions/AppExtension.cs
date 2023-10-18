@@ -1,6 +1,6 @@
 ﻿using IBGEExplorer.Shared;
-using IBGEExplorer.Shared.Services.Log;
-using IBGEExplorer.Shared.Services.Log.Contracts;
+using IBGEExplorer.Shared.Services;
+using IBGEExplorer.Shared.Services.Contracts;
 
 namespace IBGEExplorer.API.Extensions;
 
