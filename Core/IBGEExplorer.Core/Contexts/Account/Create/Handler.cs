@@ -1,5 +1,7 @@
-﻿using SharedContext.Services.Log.Contracts;
+﻿using IBGEExplorer.Core.Contexts.Account.Entities;
+using SharedContext.Services.Log.Contracts;
 using System.Text.Json;
+using SharedContext.Extensions;
 
 namespace IBGEExplorer.Core.Contexts.Account.Create;
 
@@ -9,13 +11,21 @@ public class Handler
 
     public Handler(ILoggerService log) => _logger = log;    
 
-    public async Task<string> CreateAccountAsync(string email, string password)
+    public async Task<string> CreateAccountAsync(Request account)
     {
-        var user = new
+        User user = new User
         {
-            email = email,
-            password = password
+            Id = Guid.NewGuid(),
+            Email = account.Email,
+            Password = StringEstensions.ToSha256(account.Password),
+            FullName =
+            {
+                FirstName = "Nome",
+                LastName = "Sobre Nome"
+            }
         };
+
+        user.ChangeUserName(new (name));
 
         var json = JsonSerializer.Serialize(user);
         await _logger.LogAsync("Erro ao criar usuário", "c9933e53", json);

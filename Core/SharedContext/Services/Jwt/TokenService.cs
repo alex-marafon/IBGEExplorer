@@ -6,12 +6,12 @@ using System.Text;
 namespace SharedContext.Services.Jwt;
 public static class TokenService
 {
-    public static string GenerateToken(string Email, string Id)
+        public static string GenerateToken( string userId)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(ReturnClain(Email, Id)),
+            Subject = new ClaimsIdentity(ReturnClain(userId)),
             Expires = DateTime.UtcNow.AddHours(6),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Settings.secret)),
@@ -22,12 +22,11 @@ public static class TokenService
         return tokenHandler.WriteToken(token);
     }
 
-    private static IEnumerable<Claim> ReturnClain(string Email, string Id)
+    private static IEnumerable<Claim> ReturnClain( string Id)
     {
         var userClaim = (new[]
         {
-            new Claim(ClaimTypes.Name, Id.ToString()), //User.Identity.Name
-            new Claim(ClaimTypes.Role, Email) //User.IsInRole
+            new Claim(ClaimTypes.Name, Id.ToString()),
         }).ToList();
         return userClaim;
     }
