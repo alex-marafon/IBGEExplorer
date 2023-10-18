@@ -37,18 +37,6 @@ app.MapPost("api/v1/account", (CreateAccount.Handler handler, CreateAccount.Requ
 
 app.MapPost("api/v1/token", async (Handler handler, string email, string password) =>
 {
-    //var role = new List<string> { "Admin" };
-    //var name = "Alex";
-
-    //var user = new
-    //{
-    //    id = "guiddd",
-    //    Name = name,
-    //    Email = email,
-    //    Password = password,
-    //    Roles = role,
-    //};
-
     var user = await handler.GetOneByEmailPasswordAsync(email, password);
 
     var token = TokenService.GenerateToken(user.Id.ToString());
