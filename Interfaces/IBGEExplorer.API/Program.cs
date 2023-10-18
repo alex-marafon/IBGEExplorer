@@ -1,3 +1,4 @@
+using IBGEExplorer.Account.UseCases.Get;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Shared.Services.Jwt;
@@ -34,21 +35,23 @@ app.MapPost("api/v1/account", (CreateAccount.Handler handler, CreateAccount.Requ
     Console.WriteLine("foi");
 });
 
-app.MapPost("api/v1/token", ( string email, string password) =>
+app.MapPost("api/v1/token", async (Handler handler, string email, string password) =>
 {
-    var role = new List<string> { "Admin" };
-    var name = "Alex";
+    //var role = new List<string> { "Admin" };
+    //var name = "Alex";
 
-    var user = new
-    {
-        id = "guiddd",
-        Name = name,
-        Email = email,
-        Password = password,
-        Roles = role,
-    };
+    //var user = new
+    //{
+    //    id = "guiddd",
+    //    Name = name,
+    //    Email = email,
+    //    Password = password,
+    //    Roles = role,
+    //};
 
-    var token = TokenService.GenerateToken(user.id);
+    var user = await handler.GetOneByEmailPasswordAsync(email, password);
+
+    var token = TokenService.GenerateToken(user.Id.ToString());
     return Results.Ok(new
     {
         Email = email,
