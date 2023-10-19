@@ -482,5 +482,4 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
-/Interfaces/IBGEExplorer.API/Migrations/DataContextModelSnapshot.cs
-/Interfaces/IBGEExplorer.API/Migrations/20231013145451_InitialCreate.cs
+/Interfaces/IBGEExplorer.API/Migrations/*
