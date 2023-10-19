@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.Data.Contexts.Account.UseCases.Get;
 
-//usar context
 public class Repository : IRepository
 {
     private readonly DataContext _context;
@@ -13,15 +12,18 @@ public class Repository : IRepository
         _context = context;
     
 
-    public async Task<User?> GetUser(int id)
-    {
-        var user = await _context.User.FirstOrDefaultAsync(x => x.Id == id);  
-        return user;
-    }
+    public async Task<User?> GetUserById(int id) =>
+        await _context.User
+        .FirstOrDefaultAsync(x => x.Id == id);
 
-    public async Task<User?> GetUser(string email)
-    {
-        var user = await _context.User.FirstOrDefaultAsync(x => x.Email == email);
-        return user;
-    }
+    public async Task<User?> GetUserByIdAsNoTracking(int id) =>
+        await _context.User
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+    public async Task<User?> GetUserByEmailAsNoTracking(string email) =>
+        await _context.User
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == email);
+     
 }

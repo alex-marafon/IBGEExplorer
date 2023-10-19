@@ -18,7 +18,7 @@ public class Handler
 
     public async Task<BaseResponse<User>> GetOneByIdAsync(int id)
     {
-        var user = await _repository.GetUser(id);
+        var user = await _repository.GetUserByIdAsNoTracking(id);
         if(user is null) 
             return new BaseResponse<User>("User with id {id} not found", "USR-B0001");
 
@@ -29,7 +29,7 @@ public class Handler
     {
         try
         {
-            var user = await _repository.GetUser(account.Email);
+            var user = await _repository.GetUserByEmailAsNoTracking(account.Email);
 
             if (user == null || user.PasswordHash != account.Password)
                 return new BaseResponse<string>("Invalid user", "USR-A001");

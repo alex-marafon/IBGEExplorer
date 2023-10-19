@@ -4,6 +4,7 @@ namespace IBGEExplorer.Account.UseCases.Get.Contracts;
 
 public interface IRepository
 {
-    Task<User> GetUser(int id);
-    Task<User> GetUser(string email);
+    Task<User?> GetUserById(int id);
+    Task<User?> GetUserByIdAsNoTracking(int id);
+    Task<User?> GetUserByEmailAsNoTracking(string email);
 }

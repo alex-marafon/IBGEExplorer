@@ -7,6 +7,7 @@ namespace IBGEExplorer.Data;
 public class DataContext : DbContext
 {
     public DbSet<User> User { get; private set; }
+    public DbSet<Role> Role { get; private set; }
 
     public DataContext(DbContextOptions<DataContext> opt) : base(opt)
     {

@@ -18,6 +18,8 @@ public class Request
     [StringLength(16, MinimumLength = 8, ErrorMessage = "Senha deve conter 8 ou no maxima 16 caracteres")]
     public string Password { get; set; } = null!;
 
+    public HashSet<int> RoleIds { get; set; } = null!;
+
     public static implicit operator User(Request request) =>
         new User()
         {
