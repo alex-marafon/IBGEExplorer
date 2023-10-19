@@ -37,17 +37,13 @@ app.MapPost("api/v1/account", (CreateAccount.Handler handler, CreateAccount.Requ
 
 app.MapPost("api/v1/token", async (Handler handler, string email, string password) =>
 {
-    var user = await handler.GetOneByEmailPasswordAsync(email, password);
-    if (user == null)
-        return Results.NotFound("Usuario nao encontrado");
-
-    var token = TokenService.GenerateToken(user.Id.ToString());
-    return Results.Ok(new
-    {
-        Email = email,
-        Password = "",
-        Token = token
-    });
+    var baseResponse = await handler.GetOneByEmailPasswordAsync(email, password);
+    if (baseResponse.StatusCode == 200)
+        return Results.Ok(baseResponse);
+    else if (baseResponse.StatusCode == 400)
+        return Results.Ok(baseResponse);
+    else if(baseResponse.StatusCode == 500)
+        return Results.Ok(baseResponse);
 });
 
 app.Run();

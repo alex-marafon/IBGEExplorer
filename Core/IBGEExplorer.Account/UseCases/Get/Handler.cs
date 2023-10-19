@@ -1,5 +1,7 @@
 ﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Account.UseCases.Get.Contracts;
+using IBGEExplorer.Shared.Services.Jwt;
+using IBGEExplorer.Shared.UseCases;
 
 namespace IBGEExplorer.Account.UseCases.Get;
 
@@ -17,21 +19,24 @@ public class Handler
         return user;
     }
     
-    //passar um obj como parametro
-    public async Task<User?> GetOneByEmailPasswordAsync(string email, string password)
+    public async Task<BaseResponse<string>> GetOneByEmailPasswordAsync(string email, string password)
     {
-        var user = await _repository.GetUser(email);
-        
-        //melhorar esses IFs
-        if(user == null)
+        try
         {
-            return null;
-        }
-        if(user.PasswordHash != password) // aqui deve usar descript de senha
-        {
-            return null;
-        }
+            var user = await _repository.GetUser(email);
 
-        return user;
+            if (user == null || user.PasswordHash != password)
+                return new BaseResponse<string>("Usuario inválido", "USR-A001");
+
+            return new BaseResponse<string>(GetToken(user)); ;
+        }
+        catch
+        {
+            return new BaseResponse<string>("Erro ao validar usuario", "USR-A0002", 500);
+        }
     }
+
+    private string GetToken(User user) => 
+        TokenService.GenerateToken(user.Id.ToString());
+    
 }
