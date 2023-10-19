@@ -1,3 +1,4 @@
+using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Shared.Services.Jwt;
@@ -28,26 +29,49 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapPost("api/v1/account", (CreateAccount.Handler handler, CreateAccount.Request account) =>
+app.MapPost("api/v1/account", async (CreateAccount.Handler handler, CreateAccount.Request account) =>
 {
-    var result = handler.CreateAccountAsync(account);
-    Console.WriteLine("foi");
-});
+    var baseResponse = await handler.CreateAccountAsync(account);
+    return baseResponse.StatusCode == 201 ?
+                Results.CreatedAtRoute("GetUserById") :
+                Results.BadRequest(baseResponse);
+})
+.Produces(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithName("CreateUser")
+.WithTags("Usuario");
 
-app.MapPost("api/v1/token", async (GetAccount.Handler handler, CreateAccount.Request account) =>
+app.MapPost("api/v1/token", async (GetAccount.Handler handler, RequestLogin account) =>
 {
     var baseResponse = await handler.GetOneByEmailPasswordAsync(account);
 
     if (baseResponse.StatusCode == 400)
         return Results.BadRequest(baseResponse);
     else if (baseResponse.StatusCode == 500)
-        return Results.StatusCode(500);
+        return Results.BadRequest(baseResponse);
 
     return Results.Ok(baseResponse);
 })
 .Produces(StatusCodes.Status200OK)
 .Produces(StatusCodes.Status400BadRequest)
 .Produces(StatusCodes.Status500InternalServerError)
-.WithTags("Usuario");
+.WithTags("Usuario")
+.WithName("UserLoginToken");
+
+app.MapGet("api/v1/accoun", async (GetAccount.Handler handler, int id) =>
+{
+    var baseResponse = await handler.GetOneByIdAsync(id);
+    if (baseResponse.StatusCode == 400)
+        return Results.BadRequest(baseResponse);
+    else if (baseResponse.StatusCode == 500)
+        return Results.BadRequest(baseResponse);
+
+    return Results.Ok(baseResponse);
+})
+.Produces(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status400BadRequest)
+.Produces(StatusCodes.Status500InternalServerError)
+.WithTags("Usuario")
+.WithName("GetUserById");
 
 app.Run();
