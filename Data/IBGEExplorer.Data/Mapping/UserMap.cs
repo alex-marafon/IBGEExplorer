@@ -23,16 +23,28 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 
+        builder.Property(x => x.Hash)
+            .IsRequired()
+            .HasColumnName("Hash")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(30);
+
         builder.Property(x => x.CanLogin)
             .IsRequired()
             .HasColumnName("CanLogin")
             .HasColumnType("BIT")
             .HasDefaultValue(false);
 
-        builder.Property(x => x.FullName)
+        builder.Property(x => x.FirstName)
             .IsRequired()
-            .HasColumnName("FullName")
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(100);
+            .HasColumnName("FirstName")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(30);
+
+        builder.Property(x => x.LastName)
+            .IsRequired()
+            .HasColumnName("LastName")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(70);
     }
 }
