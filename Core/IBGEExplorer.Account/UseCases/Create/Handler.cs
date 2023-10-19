@@ -41,7 +41,9 @@ public class Handler
                 Id = Guid.NewGuid(),
                 Email = account.Email,
                 PasswordHash = StringEstensions.ToSha256(account.Password),
-                FullName = new Name("Maria", "das Dores")
+               // FullName = new Name("Maria", "das Dores")
+               FirstName = "Maria",
+               LastName = "das Dores"
             };
         }
         catch (Exception ex)
