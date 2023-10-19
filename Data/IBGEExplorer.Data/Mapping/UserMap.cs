@@ -18,8 +18,8 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(100);
 
-        builder.Property(x => x.PasswordHash)
-            .HasColumnName("PasswordHash")
+        builder.Property(x => x.Password)
+            .HasColumnName("Password")
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 

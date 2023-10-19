@@ -36,14 +36,16 @@ public class Handler
 
         try
         {
+            string salt = StringEstensions.CreateSalt();
             user = new User
             {
                 Id = Guid.NewGuid(),
                 Email = account.Email,
-                PasswordHash = StringEstensions.ToSha256(account.Password),
                // FullName = new Name("Maria", "das Dores")
-               FirstName = "Maria",
-               LastName = "das Dores"
+                FirstName = "Maria",
+                LastName = "das Dores",
+                Hash = salt,
+                Password = StringEstensions.GenerateSha256Hash(salt, "1q2w3e4r@#$"),
             };
         }
         catch (Exception ex)

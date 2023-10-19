@@ -10,14 +10,16 @@ public class AccountTests
 
     public AccountTests()
     {
+        string salt = StringEstensions.CreateSalt();
         validUser = new User
         {
             Id = Guid.NewGuid(),
             Email = "joaoteste@mail.com",
-            PasswordHash = StringEstensions.ToSha256("1q2w3e4r@#$"),
             // FullName = new Name("Maria", "das Dores")
-            FirstName = "João", 
-            LastName = "da Manga"
+            FirstName = "Maria",
+            LastName = "das Dores",
+            Hash = salt,
+            Password = StringEstensions.GenerateSha256Hash(salt, "1q2w3e4r@#$"),
         };
     }
 
