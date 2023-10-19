@@ -1,4 +1,5 @@
 ﻿using IBGEExplorer.Account.Entities;
+using IBGEExplorer.Account.UseCases.Create;
 using IBGEExplorer.Account.UseCases.Get.Contracts;
 using IBGEExplorer.Shared.Services.Jwt;
 using IBGEExplorer.Shared.UseCases;
@@ -19,13 +20,13 @@ public class Handler
         return user;
     }
     
-    public async Task<BaseResponse<string>> GetOneByEmailPasswordAsync(string email, string password)
+    public async Task<BaseResponse<string>> GetOneByEmailPasswordAsync(Request account)
     {
         try
         {
-            var user = await _repository.GetUser(email);
+            var user = await _repository.GetUser(account.Email);
 
-            if (user == null || user.PasswordHash != password)
+            if (user == null || user.PasswordHash != account.Password)
                 return new BaseResponse<string>("Usuario inválido", "USR-A001");
 
             return new BaseResponse<string>(GetToken(user)); ;
