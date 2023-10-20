@@ -18,6 +18,9 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(100);
 
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
+
         builder.Property(x => x.Password)
             .HasColumnName("Password")
             .HasColumnType("VARCHAR")
