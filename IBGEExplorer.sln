@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBGEExplorer.Account", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBGEExplorer.Shared", "Core\IBGEExplorer.Shared\IBGEExplorer.Shared.csproj", "{908E3713-2CD7-4E4C-8F8A-6D27BC3018CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBGEExplorer.City", "Core\IBGEExplorer.City\IBGEExplorer.City.csproj", "{A6CFCCB1-F6B3-465A-A1FF-56C07B36F2F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{908E3713-2CD7-4E4C-8F8A-6D27BC3018CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{908E3713-2CD7-4E4C-8F8A-6D27BC3018CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{908E3713-2CD7-4E4C-8F8A-6D27BC3018CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6CFCCB1-F6B3-465A-A1FF-56C07B36F2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6CFCCB1-F6B3-465A-A1FF-56C07B36F2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6CFCCB1-F6B3-465A-A1FF-56C07B36F2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6CFCCB1-F6B3-465A-A1FF-56C07B36F2F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{7D62AB37-F82B-4921-87E6-A851300C3FFA} = {F13A46F5-EF2D-4DF7-BFBB-7DBDAC310483}
 		{2509726C-210D-47BA-AA3B-92918E953D0A} = {8BA98427-1223-4D4A-9183-81FFCFA9099A}
 		{908E3713-2CD7-4E4C-8F8A-6D27BC3018CF} = {8BA98427-1223-4D4A-9183-81FFCFA9099A}
+		{A6CFCCB1-F6B3-465A-A1FF-56C07B36F2F3} = {8BA98427-1223-4D4A-9183-81FFCFA9099A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B416861E-F29D-43C0-8775-F81C518B0CCF}
