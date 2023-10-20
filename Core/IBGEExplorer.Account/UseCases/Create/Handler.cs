@@ -3,6 +3,7 @@ using IBGEExplorer.Account.UseCases.Create.Contracts;
 using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
+using System.Data;
 
 namespace IBGEExplorer.Account.UseCases.Create;
 
@@ -20,6 +21,7 @@ public class Handler
     public async Task<BaseResponse<ResponseData>> CreateAccountAsync(Request account)
     {
         User user;
+        List<Entities.Role> roles;
 
         #region Validação
 
@@ -42,11 +44,7 @@ public class Handler
             user.SetHashSalt(StringEstensions.CreateSalt());
             user.Password = StringEstensions.GenerateSha256Hash(user.HashSalt, user.Password);
 
-            var roles = _roleHandler.GetRolesByIds(account.RoleIds);
-            roles.ForEach(async userRole =>
-            {
-                await _userRoleHandler.CreateAsync(user, userRole);
-            });
+            roles = _roleHandler.GetRolesByIds(account.RoleIds);            
         }
         catch (Exception ex)
         {
@@ -59,13 +57,17 @@ public class Handler
 
         try
         {
+            if(roles is null || !roles.Any())
+                return new BaseResponse<ResponseData>("The role Ids are invalid!", "ACT-A0003",400);
+
             await _repository.Create(user);
+            await _userRoleHandler.CreateAsync(user, roles);
         }
         catch(Exception ex)
         {
             Console.WriteLine(ex);
-            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0003");
-            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0003",
+            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0004");
+            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0004",
                 400);
         }
 

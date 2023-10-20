@@ -17,13 +17,15 @@ public class Handler
         => (_logger, _repository) = (logger, repository);
 
 
-    public async Task<BaseResponse<User>> GetOneByIdAsync(int id)
+    public async Task<BaseResponse<Response>> GetOneByIdAsync(int id)
     {
         var user = await _repository.GetUserByIdAsNoTracking(id);
         if(user is null) 
-            return new BaseResponse<User>("User with id {id} not found", "USR-B0001");
+            return new BaseResponse<Response>("User with id {id} not found", "USR-B0001");
 
-        return new BaseResponse<User>(user);
+        Response reponse = user;
+
+        return new BaseResponse<Response>(reponse);
     }
     
     public async Task<BaseResponse<string>> GetOneByEmailPasswordAsync(RequestLogin account)

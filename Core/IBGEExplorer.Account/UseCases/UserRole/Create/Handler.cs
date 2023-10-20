@@ -10,10 +10,12 @@ public class Handler
     public Handler(IRepository repository) =>
         _repository = repository;
 
-    public async Task CreateAsync(User user, Entities.Role role)
+    public async Task CreateAsync(User user, List<Entities.Role> roles)
     {
-        var userRole = new Entities.UserRole() { UserId = user.Id, RoleId = role.Id };
-        await _repository.CreateAsync(userRole);
+        foreach (var role in roles)
+        {
+            await _repository.CreateAsync(new Entities.UserRole() { UserId = user.Id, RoleId = role.Id });
+        }
     }
 
 }
