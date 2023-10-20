@@ -44,7 +44,10 @@ public static class StringEstensions
     }
 
     public static string GenerateSha256Hash(string salt, string senha)
-        => salt + ToSha256(senha);
+    {
+        return ToSha256(salt + ToSha256(senha)) ;
+    }
+       
 
     public static string ToBase64(this string text)
         => Convert.ToBase64String(Encoding.ASCII.GetBytes(text));
