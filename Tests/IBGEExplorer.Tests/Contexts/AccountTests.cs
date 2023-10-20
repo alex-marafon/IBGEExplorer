@@ -13,7 +13,7 @@ public class AccountTests
         string salt = StringEstensions.CreateSalt();
         validUser = new User
         {
-            Id = Guid.NewGuid(),
+            Id = 1234,
             Email = "joaoteste@mail.com",
             // FullName = new Name("Maria", "das Dores")
             FirstName = "Maria",

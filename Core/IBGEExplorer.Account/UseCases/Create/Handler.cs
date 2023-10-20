@@ -1,9 +1,7 @@
 ﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Account.UseCases.Create.Contracts;
-using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
-using IBGEExplorer.Shared.ValueObjects;
 
 namespace IBGEExplorer.Account.UseCases.Create;
 
@@ -28,7 +26,7 @@ public class Handler
         bool checkIfAlreadyExists = await _repository.IsAlreadyRegisteredAccountAsync(account.Email);
 
         if (checkIfAlreadyExists)
-            return new BaseResponse<ResponseData>("User with this email already exists", "2D71FC0D");
+            return new BaseResponse<ResponseData>("User with this email already exists", "ACT-A0001");
 
         #endregion
 
@@ -36,21 +34,11 @@ public class Handler
 
         try
         {
-            string salt = StringEstensions.CreateSalt();
-            user = new User
-            {
-                Id = Guid.NewGuid(),
-                Email = account.Email,
-               // FullName = new Name("Maria", "das Dores")
-                FirstName = "Maria",
-                LastName = "das Dores",
-                Hash = salt,
-                Password = StringEstensions.GenerateSha256Hash(salt, "1q2w3e4r@#$"),
-            };
+            user = account;
         }
         catch (Exception ex)
         {
-            return new BaseResponse<ResponseData>(ex.Message, "2D71FC0D");
+            return new BaseResponse<ResponseData>(ex.Message, "ACT-A0002", 500);
         }
 
         #endregion
@@ -63,8 +51,8 @@ public class Handler
         }
         catch
         {
-            await _logger.LogAsync($"An error occurred while saving the user in database", "EC7B1512");
-            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "EC7B1512",
+            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0003");
+            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0003",
                 400);
         }
 
@@ -73,7 +61,7 @@ public class Handler
         #region Retorno de sucesso
 
         await _logger.LogAsync($"New account created: {user.Email}");
-        return new BaseResponse<ResponseData>(new ResponseData("Account created successfully"));
+        return new BaseResponse<ResponseData>(new ResponseData("Account created successfully"), 201);
 
         #endregion
     }
