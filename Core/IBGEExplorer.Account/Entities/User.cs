@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using IBGEExplorer.Shared.Entities;
-using IBGEExplorer.Shared.ValueObjects;
 
 namespace IBGEExplorer.Account.Entities;
 
