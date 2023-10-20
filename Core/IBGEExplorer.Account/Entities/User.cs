@@ -13,6 +13,7 @@ public class User : Entity<int>
     public string? LastName { get; set; }
     public string HashSalt { get; private set; }
     public List<UserRole>? UserRoles { get; set; }
+
     public void SetHashSalt(string hashSalt) =>
         HashSalt = hashSalt;
 

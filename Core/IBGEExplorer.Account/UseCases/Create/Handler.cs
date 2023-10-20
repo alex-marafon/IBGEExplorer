@@ -10,9 +10,12 @@ public class Handler
 {
     private readonly ILoggerService _logger;
     private readonly IRepository _repository;
+    private readonly Role.Get.Handler _roleHandler;
+    private readonly UserRole.Create.Handler _userRoleHandler;
 
-    public Handler(ILoggerService logger, IRepository repository)
-        => (_logger, _repository) = (logger, repository);
+    public Handler(ILoggerService logger, IRepository repository, 
+        Role.Get.Handler roleHandler, UserRole.Create.Handler userRoleHandler)
+        => (_logger, _repository, _roleHandler, _userRoleHandler) = (logger, repository, roleHandler, userRoleHandler);
 
     public async Task<BaseResponse<ResponseData>> CreateAccountAsync(Request account)
     {
@@ -38,6 +41,12 @@ public class Handler
             user = account;
             user.SetHashSalt(StringEstensions.CreateSalt());
             user.Password = StringEstensions.GenerateSha256Hash(user.HashSalt, user.Password);
+
+            var roles = _roleHandler.GetRolesByIds(account.RoleIds);
+            roles.ForEach(async userRole =>
+            {
+                await _userRoleHandler.CreateAsync(user, userRole);
+            });
         }
         catch (Exception ex)
         {
@@ -50,7 +59,7 @@ public class Handler
 
         try
         {
-            await _repository.SaveAsync(user);
+            await _repository.Create(user);
         }
         catch(Exception ex)
         {

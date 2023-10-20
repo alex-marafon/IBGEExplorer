@@ -10,4 +10,8 @@
       <ProjectReference Include="..\IBGEExplorer.Shared\IBGEExplorer.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="UseCases\UserRole\Get\Contracts\" />
+    </ItemGroup>
+
 </Project>

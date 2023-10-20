@@ -6,5 +6,5 @@ public interface IRepository
 {
     Task<bool> IsAlreadyRegisteredAccountAsync(string emailAddress);
 
-    Task SaveAsync(User user);
+    Task Create(User user);
 }

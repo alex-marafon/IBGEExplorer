@@ -50,5 +50,4 @@ public class Handler
 
     private string GetToken(User user) => 
         TokenService.GenerateToken(user.Id.ToString());
-    
 }
