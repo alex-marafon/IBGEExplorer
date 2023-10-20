@@ -35,7 +35,7 @@ public class Handler
             if (user == null)
                 return new BaseResponse<string>("Invalid user", "USR-A001");            
 
-            var verificaSenha = StringEstensions.GenerateSha256Hash(user.HashSalt, account.Password);
+            var verificaSenha = StringExtensions.GenerateSha256Hash(user.HashSalt, account.Password);
             if(verificaSenha != user.Password)
                 return new BaseResponse<string>("Invalid user", "USR-A002");           
 

@@ -36,8 +36,8 @@ public class Handler
         try
         {
             user = account;
-            user.SetHashSalt(StringEstensions.CreateSalt());
-            user.Password = StringEstensions.GenerateSha256Hash(user.HashSalt, user.Password);
+            user.SetHashSalt(StringExtensions.CreateSalt());
+            user.Password = StringExtensions.GenerateSha256Hash(user.HashSalt, user.Password);
         }
         catch (Exception ex)
         {
