@@ -14,7 +14,7 @@ public class Repository : IRepository
     public async Task<bool> IsAlreadyRegisteredAccountAsync(string emailAddress) => 
         await _context.User.AnyAsync(x => x.Email == emailAddress);
 
-    public async Task SaveAsync(User user)
+    public async Task Create(User user)
     {
         await _context.AddAsync(user);
         SaveAsync();

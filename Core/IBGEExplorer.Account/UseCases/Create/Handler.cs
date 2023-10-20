@@ -3,6 +3,7 @@ using IBGEExplorer.Account.UseCases.Create.Contracts;
 using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
+using System.Data;
 
 namespace IBGEExplorer.Account.UseCases.Create;
 
@@ -10,13 +11,17 @@ public class Handler
 {
     private readonly ILoggerService _logger;
     private readonly IRepository _repository;
+    private readonly Role.Get.Handler _roleHandler;
+    private readonly UserRole.Create.Handler _userRoleHandler;
 
-    public Handler(ILoggerService logger, IRepository repository)
-        => (_logger, _repository) = (logger, repository);
+    public Handler(ILoggerService logger, IRepository repository, 
+        Role.Get.Handler roleHandler, UserRole.Create.Handler userRoleHandler)
+        => (_logger, _repository, _roleHandler, _userRoleHandler) = (logger, repository, roleHandler, userRoleHandler);
 
     public async Task<BaseResponse<ResponseData>> CreateAccountAsync(Request account)
     {
         User user;
+        List<Entities.Role> roles;
 
         #region Validação
 
@@ -38,6 +43,8 @@ public class Handler
             user = account;
             user.SetHashSalt(StringEstensions.CreateSalt());
             user.Password = StringEstensions.GenerateSha256Hash(user.HashSalt, user.Password);
+
+            roles = _roleHandler.GetRolesByIds(account.RoleIds);            
         }
         catch (Exception ex)
         {
@@ -50,13 +57,17 @@ public class Handler
 
         try
         {
-            await _repository.SaveAsync(user);
+            if(roles is null || !roles.Any())
+                return new BaseResponse<ResponseData>("The role Ids are invalid!", "ACT-A0003",400);
+
+            await _repository.Create(user);
+            await _userRoleHandler.CreateAsync(user, roles);
         }
         catch(Exception ex)
         {
             Console.WriteLine(ex);
-            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0003");
-            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0003",
+            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0004");
+            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0004",
                 400);
         }
 

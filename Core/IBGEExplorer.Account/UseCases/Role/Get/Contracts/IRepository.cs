@@ -1,4 +1,4 @@
-﻿namespace IBGEExplorer.Account.UseCases.Role.Get;
+﻿namespace IBGEExplorer.Account.UseCases.Role.Get.Contracts;
 
 public interface IRepository
 {
