@@ -21,7 +21,7 @@ public class Handler
     public async Task<BaseResponse<ResponseData>> CreateAccountAsync(Request account)
     {
         User user;
-        List<Entities.Role> roles;
+        List<Entities.Role>? roles;
 
         #region Validação
 
@@ -41,8 +41,8 @@ public class Handler
         try
         {
             user = account;
-            user.SetHashSalt(StringEstensions.CreateSalt());
-            user.Password = StringEstensions.GenerateSha256Hash(user.HashSalt, user.Password);
+            user.SetHashSalt(StringExtensions.CreateSalt());
+            user.Password = StringExtensions.GenerateSha256Hash(user.HashSalt!, user.Password);
 
             roles = _roleHandler.GetRolesByIds(account.RoleIds);            
         }
