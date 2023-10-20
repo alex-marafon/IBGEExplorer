@@ -20,8 +20,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\IBGEExplorer.Core\IBGEExplorer.Core.csproj" />
-  </ItemGroup>
-
 </Project>
