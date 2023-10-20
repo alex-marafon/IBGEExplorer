@@ -1,6 +1,4 @@
-﻿using IBGEExplorer.Account.UseCases.Create.Contracts;
-using IBGEExplorer.Data;
-using IBGEExplorer.Data.Contexts.Account.UseCases.Create;
+﻿using IBGEExplorer.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.API;
@@ -10,6 +8,7 @@ public static class Context
     public static void AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddTransient<Account.UseCases.Create.Handler>();
+        builder.Services.AddTransient<Account.UseCases.Get.Handler>();
 
         var connectionString = builder.Configuration
             .GetConnectionString("DefaultConnection");
@@ -21,6 +20,11 @@ public static class Context
                     level >= LogLevel.Information)));
         });
 
-        builder.Services.AddScoped<IRepository, Repository>();
+        builder.Services.AddScoped
+            <IBGEExplorer.Account.UseCases.Create.Contracts.IRepository, 
+            IBGEExplorer.Data.Contexts.Account.UseCases.Create.Repository>();
+        builder.Services.AddScoped
+            <IBGEExplorer.Account.UseCases.Get.Contracts.IRepository, 
+            Data.Contexts.Account.UseCases.Get.Repository>();
     }
 }
