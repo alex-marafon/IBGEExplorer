@@ -483,3 +483,4 @@ $RECYCLE.BIN/
 # Vim temporary swap files
 *.swp
 /Interfaces/IBGEExplorer.API/Migrations/*
+/Interfaces/IBGEExplorer.API/Migrations/
