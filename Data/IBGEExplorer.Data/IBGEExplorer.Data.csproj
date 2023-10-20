@@ -20,4 +20,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contexts\Cities\UseCases\Import\" />
+    <Folder Include="Contexts\Cities\UseCases\Search\" />
+  </ItemGroup>
+
 </Project>

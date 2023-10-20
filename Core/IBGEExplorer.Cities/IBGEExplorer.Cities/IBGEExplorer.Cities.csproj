@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\IBGEExplorer.Shared\IBGEExplorer.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
