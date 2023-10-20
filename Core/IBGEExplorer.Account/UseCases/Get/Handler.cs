@@ -1,6 +1,7 @@
 ﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Account.UseCases.Get.Contracts;
 using IBGEExplorer.Account.UseCases.Login;
+using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.Services.Jwt;
 using IBGEExplorer.Shared.UseCases;
@@ -31,15 +32,19 @@ public class Handler
         {
             var user = await _repository.GetUserByEmailAsNoTracking(account.Email);
 
-            if (user == null || user.PasswordHash != account.Password)
-                return new BaseResponse<string>("Invalid user", "USR-A001");
+            if (user == null)
+                return new BaseResponse<string>("Invalid user", "USR-A001");            
+
+            var verificaSenha = StringEstensions.GenerateSha256Hash(user.HashSalt, account.Password);
+            if(verificaSenha != user.Password)
+                return new BaseResponse<string>("Invalid user", "USR-A002");           
 
             await _logger.LogAsync($"Return token for user {user.Email}");
             return new BaseResponse<string>(GetToken(user));
         }
         catch
         {
-            return new BaseResponse<string>("An error occurred while try get user", "USR-A0002", 500);
+            return new BaseResponse<string>("An error occurred while try get user", "USR-A0003", 500);
         }
     }
 

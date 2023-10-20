@@ -35,6 +35,20 @@ public static class StringEstensions
         }
     }
 
+    public static string CreateSalt()
+    {
+        var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+        var buff = new byte[15];
+        rng.GetBytes(buff);
+        return Convert.ToBase64String(buff);
+    }
+
+    public static string GenerateSha256Hash(string salt, string senha)
+    {
+        return ToSha256(salt + ToSha256(senha)) ;
+    }
+       
+
     public static string ToBase64(this string text)
         => Convert.ToBase64String(Encoding.ASCII.GetBytes(text));
 

@@ -1,5 +1,6 @@
 ﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Account.UseCases.Create.Contracts;
+using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
 
@@ -35,6 +36,8 @@ public class Handler
         try
         {
             user = account;
+            user.SetHashSalt(StringEstensions.CreateSalt());
+            user.Password = StringEstensions.GenerateSha256Hash(user.HashSalt, user.Password);
         }
         catch (Exception ex)
         {
@@ -49,8 +52,9 @@ public class Handler
         {
             await _repository.SaveAsync(user);
         }
-        catch
+        catch(Exception ex)
         {
+            Console.WriteLine(ex);
             await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0003");
             return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0003",
                 400);

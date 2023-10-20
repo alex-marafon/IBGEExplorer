@@ -1,9 +1,9 @@
 ﻿using IBGEExplorer.Account.Entities;
 using Microsoft.EntityFrameworkCore;
+using IBGEExplorer.Account.UseCases.Role.Get;
+namespace IBGEExplorer.Data.Contexts.Roles.Get;
 
-namespace IBGEExplorer.Data.Contexts.Roles.GeT;
-
-public class Repository
+public class Repository : IRepository
 {
     private readonly DataContext _context;
 
@@ -17,7 +17,7 @@ public class Repository
         .AsNoTracking()
         .FirstOrDefaultAsync(x => x.Id == id);
 
-    public IQueryable<Role>? GetByIdListAsNoTracking(List<int> id) =>
+    public IQueryable<Role>? GetByIdListAsNoTracking() =>
         _context.Role
         .AsNoTracking()
         .AsQueryable();

@@ -10,20 +10,24 @@ public class UserMap : IEntityTypeConfiguration<User>
     {
         builder.ToTable("User");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd()
-            .UseIdentityColumn();
+        builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
 
         builder.Property(x => x.Email)
             .IsRequired()
             .HasColumnName("Email")
-            .HasColumnType("NVARCHAR")
+            .HasColumnType("VARCHAR")
             .HasMaxLength(100);
 
-        builder.Property(x => x.PasswordHash)
-            .HasColumnName("PasswordHash")
-            .HasColumnType("NVARCHAR")
+        builder.Property(x => x.Password)
+            .HasColumnName("Password")
+            .HasColumnType("VARCHAR")
             .HasMaxLength(255);
+
+        builder.Property(x => x.HashSalt)
+            .IsRequired()
+            .HasColumnName("Hash")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(30);
 
         builder.Property(x => x.CanLogin)
             .IsRequired()
@@ -31,11 +35,17 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("BIT")
             .HasDefaultValue(false);
 
-        builder.Property(x => x.FullName)
+        builder.Property(x => x.FirstName)
             .IsRequired()
-            .HasColumnName("FullName")
+            .HasColumnName("FirstName")
             .HasColumnType("NVARCHAR")
-            .HasMaxLength(100);
+            .HasMaxLength(30);
+
+        builder.Property(x => x.LastName)
+            .IsRequired()
+            .HasColumnName("LastName")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(70);
 
         InsertData(builder);
     }
@@ -44,12 +54,13 @@ public class UserMap : IEntityTypeConfiguration<User>
     {
         var user = new List<User>()
         {
-           new User() { Id = 1, CanLogin = true, Email="joao@gmail.com", PasswordHash = "qawsedrf", FullName = "joao da silva" },
-           new User() { Id = 2, CanLogin = true, Email="pedro@gmail.com", PasswordHash = "qawsedrf", FullName = "pedro oliveira" }
+           new User() { Id = 1, CanLogin = true, Email="joao@gmail.com", Password = "qawsedrf", FirstName = "joao", LastName = "Silva" },
+           new User() { Id = 2, CanLogin = true, Email="pedro@gmail.com", Password = "qawsedrf", FirstName = "pedro", LastName = "oliveira" }
         };
 
         user.ForEach(x =>
         {
+            x.SetHashSalt("ABC1234");
             builder.HasData(x);
         });
     }
