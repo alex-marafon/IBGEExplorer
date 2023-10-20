@@ -18,9 +18,9 @@ public class AccountTests
             // FullName = new Name("Maria", "das Dores")
             FirstName = "Maria",
             LastName = "das Dores",
-            Hash = salt,
             Password = StringEstensions.GenerateSha256Hash(salt, "1q2w3e4r@#$"),
         };
+        validUser.SetHashSalt(salt);
     }
 
     [Fact]

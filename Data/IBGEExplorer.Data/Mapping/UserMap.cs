@@ -23,7 +23,7 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR")
             .HasMaxLength(255);
 
-        builder.Property(x => x.Hash)
+        builder.Property(x => x.HashSalt)
             .IsRequired()
             .HasColumnName("Hash")
             .HasColumnType("NVARCHAR")
@@ -46,5 +46,22 @@ public class UserMap : IEntityTypeConfiguration<User>
             .HasColumnName("LastName")
             .HasColumnType("NVARCHAR")
             .HasMaxLength(70);
+
+        InsertData(builder);
+    }
+
+    private void InsertData(EntityTypeBuilder<User> builder)
+    {
+        var user = new List<User>()
+        {
+           new User() { Id = 1, CanLogin = true, Email="joao@gmail.com", Password = "qawsedrf", FirstName = "joao", LastName = "Silva" },
+           new User() { Id = 2, CanLogin = true, Email="pedro@gmail.com", Password = "qawsedrf", FirstName = "pedro", LastName = "oliveira" }
+        };
+
+        user.ForEach(x =>
+        {
+            x.SetHashSalt("ABC1234");
+            builder.HasData(x);
+        });
     }
 }
