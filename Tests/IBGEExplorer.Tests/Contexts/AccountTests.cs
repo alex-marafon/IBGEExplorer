@@ -10,7 +10,7 @@ public class AccountTests
 
     public AccountTests()
     {
-        string salt = StringEstensions.CreateSalt();
+        string salt = StringExtensions.CreateSalt();
         validUser = new User
         {
             Id = 1234,
@@ -18,7 +18,7 @@ public class AccountTests
             // FullName = new Name("Maria", "das Dores")
             FirstName = "Maria",
             LastName = "das Dores",
-            Password = StringEstensions.GenerateSha256Hash(salt, "1q2w3e4r@#$"),
+            Password = StringExtensions.GenerateSha256Hash(salt, "1q2w3e4r@#$"),
         };
         validUser.SetHashSalt(salt);
     }

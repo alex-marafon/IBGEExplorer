@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\IBGEExplorer.Account\IBGEExplorer.Account.csproj" />
-    <ProjectReference Include="..\..\Core\IBGEExplorer.Core\IBGEExplorer.Core.csproj" />
     <ProjectReference Include="..\..\Core\IBGEExplorer.Shared\IBGEExplorer.Shared.csproj" />
     <ProjectReference Include="..\..\Data\IBGEExplorer.Data\IBGEExplorer.Data.csproj" />
   </ItemGroup>

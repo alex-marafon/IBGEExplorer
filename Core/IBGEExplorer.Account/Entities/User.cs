@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using IBGEExplorer.Account.UseCases.Get.Contracts;
 using IBGEExplorer.Shared.Entities;
-using IBGEExplorer.Shared.ValueObjects;
 
 namespace IBGEExplorer.Account.Entities;
 

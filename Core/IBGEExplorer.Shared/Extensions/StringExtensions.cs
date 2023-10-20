@@ -3,7 +3,7 @@ using System.Text;
 
 namespace IBGEExplorer.Shared.Extensions;
 
-public static class StringEstensions
+public static class StringExtensions
 {
     public static string ToMd5(string text)
     {
