@@ -3,7 +3,6 @@ using IBGEExplorer.Account.UseCases.Create.Contracts;
 using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
-using System.Data;
 
 namespace IBGEExplorer.Account.UseCases.Create;
 

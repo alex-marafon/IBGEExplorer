@@ -15,7 +15,9 @@ public static class Context
         builder.Services.AddTransient<CreateAccount.Handler>();
         builder.Services.AddTransient<GetAccount.Handler>();
         builder.Services.AddTransient<Account.UseCases.Role.Get.Handler>();
-        builder.Services.AddTransient<Account.UseCases.UserRole.Create.Handler>();        
+        builder.Services.AddTransient<Account.UseCases.UserRole.Create.Handler>();
+        builder.Services.AddTransient<ImportCity.Handler>();
+        
 
         var connectionString = builder.Configuration
             .GetConnectionString("DefaultConnection");
@@ -37,5 +39,7 @@ public static class Context
             <Account.UseCases.Role.Create.Contracts.IRepository, Data.Contexts.Roles.UsesCases.Create.Repository>();
         builder.Services.AddScoped
             <Account.UseCases.UserRole.Create.Contracts.IRepository, Data.Contexts.UserRole.UsesCases.Create.Repository>();
+        builder.Services.AddScoped
+            <ImportCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Import.Repository>();
     }
 }

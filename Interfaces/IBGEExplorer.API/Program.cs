@@ -1,6 +1,7 @@
 using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
+using IBGEExplorer.Cities.UseCases.Import.Contracts;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.Services.Jwt;
 using Microsoft.AspNetCore.Mvc;
@@ -78,10 +79,14 @@ app.MapGet("api/v1/accoun", async (GetAccount.Handler handler, int id) =>
 .WithTags("Usuario")
 .WithName("GetUserById");
 
-//app.MapPost("api/v1/import", async (IFormFile context,[FromServices] ImportCity.Handler randler) =>
-app.MapPost("api/v1/import", async (IFormFile context) =>
+
+
+
+//Erro nos 2 andpoints ..  ambos apresentam erro de Ijeção de dependencia no Handler.
+
+app.MapPost("api/v1/import", async (ImportCity.Handler handler, IFormFile request) =>
     {
-        var baseResponse = await ImportCity.Handler.ImportCityAsync(context);
+        var baseResponse = await handler.ImportCityAsync(request);
         return baseResponse.StatusCode == 201 ?
             Results.Ok(baseResponse) :
             Results.BadRequest(baseResponse);

@@ -15,22 +15,22 @@ public class Handler
         => (_logger, _repository) = (logger, repository);
 
 
-    public static async Task<BaseResponse<ResponseData>> ImportCityAsync(IFormFile file)
+    public async Task<BaseResponse<ResponseData>> ImportCityAsync(IFormFile file)
     {
         //Verifica se arquivo foi informado
         if (file == null || file.Length == 0)
-            return new BaseResponse<ResponseData>(new ResponseData("File not specified"), 400);
+            return new BaseResponse<ResponseData>("File not specified", "IMP-0001", 400);
 
         //Verifica tipo do arquivo
         var allowedExtensions = new[] { ".xlsx", ".xls" };
         var fileExtension = Path.GetExtension(file.FileName).ToLower();
 
         if (!allowedExtensions.Contains(fileExtension))
-            return new BaseResponse<ResponseData>(new ResponseData("Invalid file format provide .xlsx or xls file"), 400);
+            return new BaseResponse<ResponseData>("Invalid file format provide .xlsx or xls file", "IMP-0002", 400);
 
         //Verifica tamanho do arquivo.
         if (file.Length > 512 * 1024)
-            return new BaseResponse<ResponseData>(new ResponseData("File must be smaller than 512 kb"), 400);
+            return new BaseResponse<ResponseData>("File must be smaller than 512 kb", "IMP-0003", 400);
 
 
         //Verificar com time se vai colar mais validação no arquivo.
@@ -83,17 +83,12 @@ public class Handler
         }
         catch (Exception ex)
         {
-           // await _logger.LogAsync($"Error process file: {ex.Message}");
-            return new BaseResponse<ResponseData>(new ResponseData("Error process file:"), 400);
+            await _logger.LogAsync($"Error process file: {ex.Message}");
+            return new BaseResponse<ResponseData>("Error process file:", "IMP-0004", 400);
         }
 
-        //Se tudo correr bem.
-        //await _repository.SaveListCityAsync(_city);
-       // await _logger.LogAsync($"News cities created");
+        await _repository.SaveListCityAsync(_city);
+        await _logger.LogAsync($"News cities created");
         return new BaseResponse<ResponseData>(new ResponseData("Cities created successfully"), 201);
     }
 }
-
-
-
-//Reclama do logger e do repository pq nao sao static 
