@@ -8,7 +8,7 @@ public static class AuthorizationConfigurator //: IAuthorizationConfigurator
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("Admin", policy=> policy.RequireRole("manager"));
+            options.AddPolicy("Admin", policy => policy.RequireRole("manager"));
             options.AddPolicy("Employee", policy=> policy.RequireRole("employee"));
         });
     }
