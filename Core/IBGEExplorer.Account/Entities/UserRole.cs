@@ -2,10 +2,10 @@
 
 namespace IBGEExplorer.Account.Entities;
 
-public class UserRole : Entity<int>
+public class UserRole : Entity<short>
 {
     public int UserId { get; set; }
-    public int RoleId { get; set; }
+    public short RoleId { get; set; }
 
     public User? User { get; set; }
     public Role? Role { get; set; }

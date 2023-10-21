@@ -22,7 +22,7 @@ public class UserRoleMap : IEntityTypeConfiguration<UserRole>
         builder.Property(x => x.RoleId)
             .IsRequired()
             .HasColumnName("RoleId")
-            .HasColumnType("INT");
+            .HasColumnType("smallint");
 
         builder.HasOne(role => role.User)
             .WithMany(user => user.UserRoles)
