@@ -140,6 +140,32 @@ void CityEndpoints(WebApplication app)
     .Produces(StatusCodes.Status404NotFound)
     .WithName("GetByIBGECode")
     .WithTags("IBGE");
+
+    app.MapGet("api/v1/ibge/state", async (GetCity.Handler handler, string stateName) =>
+    {
+        var baseResponse = await handler.GetByStateNameAsync(stateName);
+
+        return baseResponse.StatusCode == 200 ?
+            Results.Ok(baseResponse) :
+            Results.NotFound(baseResponse);
+    })
+    .Produces(StatusCodes.Status200OK)
+    .Produces(StatusCodes.Status404NotFound)
+    .WithName("GetByState")
+    .WithTags("IBGE");
+
+    app.MapGet("api/v1/ibge/city", async (GetCity.Handler handler, string cityName) =>
+    {
+        var baseResponse = await handler.GetByStateNameAsync(cityName);
+
+        return baseResponse.StatusCode == 200 ?
+            Results.Ok(baseResponse) :
+            Results.NotFound(baseResponse);
+    })
+    .Produces(StatusCodes.Status200OK)
+    .Produces(StatusCodes.Status404NotFound)
+    .WithName("GetByCity")
+    .WithTags("IBGE");
 }
 
 app.Run();
