@@ -6,7 +6,7 @@ public interface IRepository
 {
     Task<City?> GetCityById(int id);
     Task<City?> GetCityByIdAsNoTracking(int id);
-    Task<City?> GetCityByCode(int code);
-    Task<City?> GetCityByCodeAsNoTracking(int code);
+    Task<City?> GetCityByCode(string code);
+    Task<City?> GetCityByCodeAsNoTracking(string code);
 
 }

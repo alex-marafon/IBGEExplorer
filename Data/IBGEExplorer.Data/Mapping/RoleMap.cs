@@ -20,6 +20,9 @@ public class RoleMap : IEntityTypeConfiguration<Role>
             .HasColumnType("VARCHAR")
             .HasMaxLength(50);
 
+        builder.HasIndex(x => x.Name)
+            .IsUnique();
+
         InsertData(builder);
     }
 
