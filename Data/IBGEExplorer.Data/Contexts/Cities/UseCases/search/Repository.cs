@@ -20,12 +20,15 @@ public class Repository : IRepository
         .AsNoTracking()
         .FirstOrDefaultAsync(x => x.IBGECode == code);
 
-    public Task<City?> GetCityById(int id) =>
-        _context.City
-        .FirstOrDefaultAsync(x => x.Id == id);
-
-    public Task<City?> GetCityByIdAsNoTracking(int id) =>
+    public Task<List<City>?> GetCityByStateAsNoTracking(string stateName) =>
         _context.City
         .AsNoTracking()
-        .FirstOrDefaultAsync(x => x.Id == id);
+        .Where(x => x.StateName == stateName)
+        .ToListAsync()!;
+
+    public Task<List<City>?> GetByCityNameAsNoTracking(string cityName) =>
+        _context.City
+        .AsNoTracking()
+        .Where(x => x.CityName == cityName)
+        .ToListAsync()!;
 }

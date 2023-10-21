@@ -12,20 +12,38 @@ public class Handler
     public Handler(IRepository repository, ILoggerService logger)
         => (_logger, _repository) = (logger, repository);
 
-    public async Task<BaseResponse<City>> GetOneByIdAsync(int id)
+    private static BaseResponse<List<Response>> BuildResponse(string cityName, List<City>? cities)
     {
-        var city = await _repository.GetCityByIdAsNoTracking(id);
-        if (city is null)
-            return new BaseResponse<City>("City with id {id} not found", "CIT-GT-B0001");
+        if (cities is null)
+            return new BaseResponse<List<Response>>($"None City was found {cityName}", "CIT-GT-B0001", 404);
 
-        return new BaseResponse<City>(city);
+        List<Response> responses = new List<Response>();
+        cities.ForEach(x =>
+        {
+            Response response = x;
+            responses.Add(response);
+        });
+
+        return new BaseResponse<List<Response>>(responses);
+    }
+
+    public async Task<BaseResponse<List<Response>>> GetByStateNameAsync(string stateName)
+    {
+        var cities = await _repository.GetCityByStateAsNoTracking(stateName);
+        return BuildResponse(stateName, cities);
+    }
+
+    public async Task<BaseResponse<List<Response>>> GetByCityNameAsync(string cityName)
+    {
+        var cities = await _repository.GetByCityNameAsNoTracking(cityName);
+        return BuildResponse(cityName, cities);
     }
 
     public async Task<BaseResponse<Response>> GetOneByIBGECodeAsync(string IBGECode)
     {
         var city = await _repository.GetCityByCodeAsNoTracking(IBGECode);
         if (city is null)
-            return new BaseResponse<Response>($"City with IBGECode {IBGECode} not found", "CIT-GT-C0001", 404);
+            return new BaseResponse<Response>($"City with IBGECode {IBGECode} not found", "CIT-GT-B0001", 404);
 
         Response response = city;
 
