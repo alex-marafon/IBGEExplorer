@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\IBGEExplorer.Account\IBGEExplorer.Account.csproj" />
+    <ProjectReference Include="..\..\Core\IBGEExplorer.Cities\IBGEExplorer.Cities\IBGEExplorer.Cities.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
       <PrivateAssets>all</PrivateAssets>
@@ -21,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contexts\Cities\UseCases\Import\" />
     <Folder Include="Contexts\Cities\UseCases\Search\" />
   </ItemGroup>
 

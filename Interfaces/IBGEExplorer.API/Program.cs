@@ -1,12 +1,16 @@
 using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
+using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.Services.Jwt;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvcCore().AddDataAnnotations();
+//builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen();
 
 builder.AddBaseConfiguration();
@@ -73,5 +77,19 @@ app.MapGet("api/v1/accoun", async (GetAccount.Handler handler, int id) =>
 .Produces(StatusCodes.Status500InternalServerError)
 .WithTags("Usuario")
 .WithName("GetUserById");
+
+//app.MapPost("api/v1/import", async (IFormFile context,[FromServices] ImportCity.Handler randler) =>
+app.MapPost("api/v1/import", async (IFormFile context) =>
+    {
+        var baseResponse = await ImportCity.Handler.ImportCityAsync(context);
+        return baseResponse.StatusCode == 201 ?
+            Results.Ok(baseResponse) :
+            Results.BadRequest(baseResponse);
+    })
+    .Produces(StatusCodes.Status201Created)
+    .Produces(StatusCodes.Status500InternalServerError)
+    .WithName("ImportCity")
+    .WithTags("Cidades");
+
 
 app.Run();
