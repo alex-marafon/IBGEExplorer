@@ -1,4 +1,5 @@
 ﻿using IBGEExplorer.Account.Entities;
+using IBGEExplorer.Shared.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -63,7 +64,8 @@ public class UserMap : IEntityTypeConfiguration<User>
 
         user.ForEach(x =>
         {
-            x.SetHashSalt("ABC1234");
+            x.SetHashSalt(StringExtensions.CreateSalt());
+            x.Password = StringExtensions.GenerateSha256Hash(x.HashSalt!, x.Password);
             builder.HasData(x);
         });
     }
