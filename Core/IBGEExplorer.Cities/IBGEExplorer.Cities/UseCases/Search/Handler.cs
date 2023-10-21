@@ -12,18 +12,23 @@ public class Handler
     public Handler(IRepository repository, ILoggerService logger)
         => (_logger, _repository) = (logger, repository);
 
-
-
     public async Task<BaseResponse<City>> GetOneByIdAsync(int id)
     {
         var city = await _repository.GetCityByIdAsNoTracking(id);
         if (city is null)
-            return new BaseResponse<City>("City with id {id} not found", "CIT-B0001");
+            return new BaseResponse<City>("City with id {id} not found", "CIT-GT-B0001");
 
         return new BaseResponse<City>(city);
     }
 
+    public async Task<BaseResponse<Response>> GetOneByIBGECodeAsync(string IBGECode)
+    {
+        var city = await _repository.GetCityByCodeAsNoTracking(IBGECode);
+        if (city is null)
+            return new BaseResponse<Response>($"City with IBGECode {IBGECode} not found", "CIT-GT-C0001", 404);
 
+        Response response = city;
 
-
+        return new BaseResponse<Response>(response);
+    }
 }

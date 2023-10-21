@@ -15,7 +15,7 @@ public class Request
     public static implicit operator City(Request request) =>
         new City()
         {
-            IdCode = request.IdCode,
+            IBGECode = request.IdCode,
             CityName = request.CityName,
             StateName = request.StateName,
         };
