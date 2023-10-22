@@ -14,15 +14,15 @@ public class Handler
     public Handler(IRepository repository, ILoggerService logger) =>
         (_repository, _logger) = (repository, logger);
 
-    public async Task<BaseResponse<City>> UpateAsync(CityRequestUpdate request)
+    public async Task<BaseResponse<Entities.IBGE>> UpateAsync(CityRequestUpdate request)
     {
         try
         {
-            CityException.ThrowIfIsInvalid((request.City.IBGECode, request.City.StateName, request.City.CityName));
+            CityException.ThrowIfIsInvalid((request.IBGECode, request.CountyCode, request.StateCode));
 
             var city = await _repository.GetOneByIBGECodeUpateAsync(request.IBGECode);
             if (city is null)
-                return new BaseResponse<City>($"City with IBGECode {request.IBGECode} not found", "CTY-UP-A0001", 404);
+                return new BaseResponse<Entities.IBGE>($"City with IBGECode {request.IBGECode} not found", "CTY-UP-A0001", 404);
 
             var editCity = request;
             city.UpdateChanges(editCity);
@@ -30,33 +30,33 @@ public class Handler
             await _repository.UpateAsync(city);
             await _logger.LogAsync($"City updated. IBGE code: {city.IBGECode}");
 
-            return new BaseResponse<City>(editCity, 201);
+            return new BaseResponse<Entities.IBGE>(editCity, 201);
         }
         catch(Exception ex)
         {
             await _logger.LogAsync($"Error for update city: {request.IBGECode}. Error {ex.InnerException}");
-            return new BaseResponse<City>($"Error for update city", "CTY-UP-B0001", 500);
+            return new BaseResponse<Entities.IBGE>($"Error for update city", "CTY-UP-B0001", 500);
         }
     }
 
-    public async Task<BaseResponse<City>> DeleteAsync(string IBGECode)
+    public async Task<BaseResponse<Entities.IBGE>> DeleteAsync(string IBGECode)
     {
         try
         {
             var city = await _repository.GetOneByIBGECodeUpateAsync(IBGECode);
             if (city is null)
-                return new BaseResponse<City>($"City with IBGECode {IBGECode} not found", "CTY-UP-B0001");
+                return new BaseResponse<Entities.IBGE>($"City with IBGECode {IBGECode} not found", "CTY-UP-B0001");
             city.Activate(false);
 
             await _repository.UpateAsync(city);
             await _logger.LogAsync($"City desactivated. IBGE code: {city.IBGECode}");
 
-            return new BaseResponse<City>(city);
+            return new BaseResponse<Entities.IBGE>(city);
         }
         catch(Exception ex)
         {
             await _logger.LogAsync($"Error for delete city: {IBGECode}. Error {ex.InnerException}");
-            return new BaseResponse<City>($"Error for delete city", "CTY-UP-B0001");
+            return new BaseResponse<Entities.IBGE>($"Error for delete city", "CTY-UP-B0001");
         }
     }
 }

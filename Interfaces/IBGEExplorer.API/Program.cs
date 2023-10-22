@@ -1,6 +1,9 @@
 using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
+using IBGEExplorer.Cities.UseCases.IBGE.Create;
+using IBGEExplorer.Cities.UseCases.IBGE.Import;
+using IBGEExplorer.Cities.UseCases.IBGE.Search;
 using IBGEExplorer.Shared.Services.Jwt;
 using IBGEExplorer.Shared.Services.Swagger;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvcCore().AddDataAnnotations();
 
-//builder.Services.SwaggerConfigure();    coloquei o Swagger Gen porem apresenta erro.
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1", new OpenApiInfo
@@ -48,10 +50,6 @@ builder.Services.AddSwaggerGen(x =>
     });
 });
 
-
-
-
-
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
@@ -73,7 +71,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 UserEndpoints(app);
-CityEndpoints(app);
+IBGEEndpoints(app);
+StateEndpoints(app);
+CountyEndpoints(app);
+ImportFile(app);
 
 void UserEndpoints(WebApplication app)
 {
@@ -123,9 +124,9 @@ void UserEndpoints(WebApplication app)
     .WithName("GetUserById");
 }
 
-void CityEndpoints(WebApplication app)
+void IBGEEndpoints(WebApplication app)
 {
-    app.MapPost("api/v1/ibge", [Authorize] async (CreateCity.Handler handler, CreateCity.CityRequestCreate request) =>
+    app.MapPost("api/v1/ibge", [Authorize] async (IBGEExplorer.Cities.UseCases.IBGE.Create.Handler handler, CityRequestCreate request) =>
     {
         var baseResponse = await handler.CreateAsync(request);
         return baseResponse.StatusCode == 201 ?
@@ -207,19 +208,75 @@ void CityEndpoints(WebApplication app)
     .Produces(StatusCodes.Status404NotFound)
     .WithName("GetByCity")
     .WithTags("IBGE");
-
-    app.MapPost("api/v1/import", [AllowAnonymous] async (ImportCity.Handler handler, IFormFile request) =>
-        {
-            var baseResponse = await handler.ImportCityAsync(request);
-            return baseResponse.StatusCode == 201 ?
-                Results.Ok(baseResponse) :
-                Results.BadRequest(baseResponse);
-        })
-        .Produces(StatusCodes.Status201Created)
-        .Produces(StatusCodes.Status500InternalServerError)
-        .WithName("ImportCity")
-        .WithTags("Cidades");
 }
 
+void StateEndpoints(WebApplication app)
+{
+    app.MapPost("api/v1/state", [Authorize] async (CreateState.Handler handler, CreateState.StateRequest request) =>
+    {
+        var baseResponse = await handler.CreateAsync(request);
+        return baseResponse.StatusCode == 201 ?
+                    Results.CreatedAtRoute("GetStateByCode") :
+                    Results.BadRequest(baseResponse);
+    })
+    .Produces(StatusCodes.Status201Created)
+    .Produces(StatusCodes.Status500InternalServerError)
+    .WithName("CreateState")
+    .WithTags("State");
+
+    app.MapGet("api/v1/state", [AllowAnonymous] async (GetState.Handler handler) =>
+    {
+        var baseResponse = await handler.GetAllAsync();
+        return baseResponse.StatusCode == 200 ?
+                    Results.Ok(baseResponse) :
+                    Results.NotFound(baseResponse);
+    })
+    .Produces(StatusCodes.Status200OK)
+    .Produces(StatusCodes.Status404NotFound)
+    .WithName("GetAllState")
+    .WithTags("State");
+}
+
+void CountyEndpoints(WebApplication app)
+{
+    app.MapPost("api/v1/county", [Authorize] async (CreateCounty.Handler handler, CreateCounty.CountyRequest request) =>
+    {
+        var baseResponse = await handler.CreateAsync(request);
+        return baseResponse.StatusCode == 201 ?
+                    Results.CreatedAtRoute("GetCountyByCode") :
+                    Results.BadRequest(baseResponse);
+    })
+    .Produces(StatusCodes.Status201Created)
+    .Produces(StatusCodes.Status500InternalServerError)
+    .WithName("CreateCounty")
+    .WithTags("County");
+
+    app.MapGet("api/v1/county", [AllowAnonymous] async (GetCounty.Handler handler) =>
+    {
+        var baseResponse = await handler.GetAllAsync();
+        return baseResponse.StatusCode == 200 ?
+                    Results.Ok(baseResponse) :
+                    Results.NotFound(baseResponse);
+    })
+    .Produces(StatusCodes.Status200OK)
+    .Produces(StatusCodes.Status404NotFound)
+    .WithName("GetAllCounty")
+    .WithTags("County");
+}
+
+void ImportFile(WebApplication app)
+{
+    app.MapPost("api/v1/import", [AllowAnonymous] async (IBGEExplorer.Cities.UseCases.IBGE.Import.Handler handler, IFormFile request) =>
+    {
+        var baseResponse = await handler.ImportCityAsync(request);
+        return baseResponse.StatusCode == 201 ?
+            Results.Ok(baseResponse) :
+            Results.BadRequest(baseResponse);
+    })
+    .Produces(StatusCodes.Status201Created)
+    .Produces(StatusCodes.Status500InternalServerError)
+    .WithName("ImportCities")
+    .WithTags("ImportFile");
+}
 
 app.Run();

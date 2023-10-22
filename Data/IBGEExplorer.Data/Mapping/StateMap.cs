@@ -10,7 +10,7 @@ public class StateMap : IEntityTypeConfiguration<State>
     {
         builder.ToTable("State");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id);
+        builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
 
         builder.Property(x => x.Code)
             .IsRequired()

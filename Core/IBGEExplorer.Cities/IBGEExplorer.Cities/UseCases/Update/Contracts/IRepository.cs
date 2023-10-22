@@ -4,6 +4,6 @@ namespace IBGEExplorer.Cities.UseCases.Update.Contracts;
 
 public interface IRepository
 {
-    public Task UpateAsync(City city);
-    public Task<City> GetOneByIBGECodeUpateAsync(string IBGECode);
+    public Task UpateAsync(Entities.IBGE city);
+    public Task<Entities.IBGE> GetOneByIBGECodeUpateAsync(string IBGECode);
 }

@@ -11,11 +11,11 @@ public class Repository : IRepository
     public Repository(DataContext context) =>
         _context = context;
 
-    public Task<City?> GetOneByIBGECodeUpateAsync(string IBGECode) =>
+    public Task<IBGE?> GetOneByIBGECodeUpateAsync(string IBGECode) =>
         _context.City
         .FirstOrDefaultAsync(x => x.IBGECode == IBGECode);
 
-    public async Task UpateAsync(City city)
+    public async Task UpateAsync(IBGE city)
     {
         _context.Entry(city).State = EntityState.Modified;
         await SaveAsync();

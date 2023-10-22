@@ -10,7 +10,7 @@ public class CountyMap : IEntityTypeConfiguration<County>
     {
         builder.ToTable("County");
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Id);
+        builder.Property(x => x.Id).ValueGeneratedOnAdd().UseIdentityColumn();
 
         builder.Property(x => x.Code)
             .IsRequired()
@@ -29,8 +29,7 @@ public class CountyMap : IEntityTypeConfiguration<County>
         builder.Property(x => x.IdState)
             .IsRequired()
             .HasColumnName("IdState")
-            .HasColumnType("NVARCHAR")
-            .HasMaxLength(255);
+            .HasColumnType("INT");
 
         builder.HasOne(county => county.State)
             .WithMany(state => state.Counties)

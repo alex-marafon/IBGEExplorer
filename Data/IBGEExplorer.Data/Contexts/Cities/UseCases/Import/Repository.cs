@@ -1,5 +1,5 @@
 ﻿using IBGEExplorer.Cities.Entities;
-using IBGEExplorer.Cities.UseCases.Import.Contracts;
+using IBGEExplorer.Cities.UseCases.IBGE.Import.Contracts;
 
 namespace IBGEExplorer.Data.Contexts.Cities.UseCases.Import;
 public class Repository : IRepository
@@ -9,13 +9,13 @@ public class Repository : IRepository
     public Repository(DataContext context) =>
         _context = context;
 
-    public async Task SaveListCityAsync(IEnumerable<City> city)
+    public async Task SaveListCityAsync(IEnumerable<IBGE> city)
     {
         await _context.AddRangeAsync(city);
         SaveAsync();
     }
 
-    public async Task SaveCityAsync(City city)
+    public async Task SaveCityAsync(IBGE city)
     {
         await _context.AddAsync(city);
         SaveAsync();

@@ -25,7 +25,7 @@ public class Handler
         #region Validação
 
         if (!account.Email.Contains("@") || account.Password.Length < 8 || account.Password.Length > 16)
-            return new BaseResponse<ResponseData>("User with this email already exists", "ACT-A0001");
+            return new BaseResponse<ResponseData>("Invalid User", "ACT-A0001");
 
         #endregion
 

@@ -1,15 +1,14 @@
-﻿using IBGEExplorer.Cities.Entities;
-
-namespace IBGEExplorer.Cities.UseCases.Update;
+﻿namespace IBGEExplorer.Cities.UseCases.Update;
 
 public class CityRequestUpdate
 {
     public string IBGECode { get; set; } = null!;
-    public Create.CityRequestCreate City { get; set; } = null!;
+    public string StateCode { get; set; } = null!;
+    public string CountyCode { get; set; } = null!;
 
-    public static implicit operator City(CityRequestUpdate update) =>
-        new City()
+    public static implicit operator Entities.IBGE(CityRequestUpdate update) =>
+        new Entities.IBGE()
         {
-            IBGECode = update.City.IBGECode,
+            IBGECode = update.IBGECode,
         };
 }

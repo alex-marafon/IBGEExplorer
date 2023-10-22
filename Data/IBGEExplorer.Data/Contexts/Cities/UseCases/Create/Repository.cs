@@ -1,5 +1,5 @@
 ﻿using IBGEExplorer.Cities.Entities;
-using IBGEExplorer.Cities.UseCases.Create.Contracts;
+using IBGEExplorer.Cities.UseCases.IBGE.Create.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.Data.Contexts.Cities.UseCases.Create;
@@ -14,7 +14,7 @@ public class Repository : IRepository
     public async Task<bool> IsAlreadyRegisteredAccountAsync(string IBGECode) =>
         await _context.City.AnyAsync(x => x.IBGECode == IBGECode);
 
-    public async Task CreateAsync(City city)
+    public async Task CreateAsync(IBGE city)
     {
         await _context.City.AddAsync(city);
         await SaveAsync();

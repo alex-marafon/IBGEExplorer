@@ -10,7 +10,7 @@ public class DataContext : DbContext
     public DbSet<User> User { get; private set; }
     public DbSet<Role> Role { get; private set; }
     public DbSet<UserRole> UserRole { get; private set; }
-    public DbSet<City> City { get; private set; }
+    public DbSet<IBGE> City { get; private set; }
     public DbSet<County> County { get; private set; }
     public DbSet<State> State { get; private set; }
 
@@ -23,7 +23,7 @@ public class DataContext : DbContext
         modelBuilder.ApplyConfiguration(new UserMap());       
         modelBuilder.ApplyConfiguration(new RoleMap());       
         modelBuilder.ApplyConfiguration(new UserRoleMap());       
-        modelBuilder.ApplyConfiguration(new CityMap());       
+        modelBuilder.ApplyConfiguration(new IBGEMap());       
         modelBuilder.ApplyConfiguration(new CountyMap());       
         modelBuilder.ApplyConfiguration(new StateMap());       
     }
