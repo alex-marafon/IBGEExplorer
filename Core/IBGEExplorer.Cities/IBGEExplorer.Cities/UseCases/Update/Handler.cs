@@ -18,7 +18,7 @@ public class Handler
     {
         try
         {
-            CityException.ThrowIfIsInvalid((request.City.IBGECode, request.City.StateName, request.City.CityName));
+            CityException.ThrowIfIsInvalid((request.City.IBGECode, request.City.StateName, request.City.CityName,request.City.Uf));
 
             var city = await _repository.GetOneByIBGECodeUpateAsync(request.IBGECode);
             if (city is null)

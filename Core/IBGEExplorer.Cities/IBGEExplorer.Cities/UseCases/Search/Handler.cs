@@ -39,6 +39,13 @@ public class Handler
         return BuildResponse(cityName, cities);
     }
 
+    public async Task<BaseResponse<List<Response>>> GetByUfAsync(string uf)
+    {
+        var cities = await _repository.GetByUfAsNoTracking(uf);
+        return BuildResponse(uf, cities);
+    }
+
+
     public async Task<BaseResponse<Response>> GetOneByIBGECodeAsync(string IBGECode)
     {
         var city = await _repository.GetCityByCodeAsNoTracking(IBGECode);

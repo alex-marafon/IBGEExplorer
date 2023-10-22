@@ -18,7 +18,7 @@ public class Handler
     {
         try
         {
-            CityException.ThrowIfIsInvalid((request.IBGECode, request.StateName, request.CityName));
+            CityException.ThrowIfIsInvalid((request.IBGECode, request.StateName, request.CityName,request.Uf));
 
             if (await _repository.IsAlreadyRegisteredAccountAsync(request.IBGECode))
                 return new BaseResponse<City>($"City with IBGECode {request.IBGECode} already exists", "CTY--CTA0001");

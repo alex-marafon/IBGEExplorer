@@ -106,7 +106,7 @@ void UserEndpoints(WebApplication app)
     .WithTags("Usuario")
     .WithName("UserLoginToken");
 
-    app.MapGet("api/v1/accoun", [AllowAnonymous] async (GetAccount.Handler handler, int id) =>
+    app.MapGet("api/v1/account/{id}", [AllowAnonymous] async (GetAccount.Handler handler, int id) =>
     {
         var baseResponse = await handler.GetOneByIdAsync(id);
         if (baseResponse.StatusCode == 400)

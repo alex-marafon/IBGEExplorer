@@ -19,12 +19,12 @@ public class City : Entity<int>
     {
         IBGECode = city.IBGECode;
         CityName = city.CityName;
-        UF= city.UF;
         StateName = city.StateName;
+        UF = city.UF;
 
     }
 
     public static implicit operator Response(City city) =>
-        new Response(city.IBGECode,city.StateName, city.CityName);
+        new Response(city.IBGECode,city.StateName, city.CityName,city.UF);
     
 }
