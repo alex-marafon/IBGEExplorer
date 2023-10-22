@@ -61,6 +61,7 @@ dlldata.c
 BenchmarkDotNet.Artifacts/
 
 # .NET
+appsettings.Development.json
 project.lock.json
 project.fragment.lock.json
 artifacts/
@@ -482,3 +483,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/Interfaces/IBGEExplorer.API/Migrations/*
+/Interfaces/IBGEExplorer.API/Migrations/
