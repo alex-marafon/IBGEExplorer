@@ -5,10 +5,9 @@ namespace IBGEExplorer.Cities.Entities;
 public class City : Entity<int>
 {
     public string IBGECode { get; set; } = null!;
-    public string CityName { get; set; } = null!;
-    public string StateName { get; set; } = null!;
-    public string UF { get; set; } = null!;
     public bool? Active { get; private set; }
+    public string IdCounty { get; set; } = null!;
+    public County County { get; set; } = null!;
 
     public void Activate(bool active)
     {
@@ -18,13 +17,9 @@ public class City : Entity<int>
     public void UpdateChanges(City city)
     {
         IBGECode = city.IBGECode;
-        CityName = city.CityName;
-        UF= city.UF;
-        StateName = city.StateName;
-
+        County = city.County;
     }
 
     public static implicit operator Response(City city) =>
-        new Response(city.IBGECode,city.StateName, city.CityName);
-    
+        new Response(city.IBGECode, city.County.State.Name, city.County.Name);
 }

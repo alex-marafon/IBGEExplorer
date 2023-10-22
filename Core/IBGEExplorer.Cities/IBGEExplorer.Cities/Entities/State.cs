@@ -1,7 +1,11 @@
-﻿namespace IBGEExplorer.Cities.Entities;
-public class State
+﻿using IBGEExplorer.Shared.Entities;
+
+namespace IBGEExplorer.Cities.Entities;
+public class State : Entity
 {
-    public string CodeUF { get; set; }
-    public string UF { get; set; }
-    public string UFName { get; set; }
+    public string Code { get; set; } = null!;
+    public string Acronym { get; set; } = null!;
+    public string Name { get; set; } = null!;
+
+    public List<County> Counties { get; set; } = null!;
 }

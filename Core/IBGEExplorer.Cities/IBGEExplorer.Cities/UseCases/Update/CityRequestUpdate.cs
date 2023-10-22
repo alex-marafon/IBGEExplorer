@@ -10,8 +10,6 @@ public class CityRequestUpdate
     public static implicit operator City(CityRequestUpdate update) =>
         new City()
         {
-            CityName = update.City.CityName,
-            StateName = update.City.StateName,
             IBGECode = update.City.IBGECode,
         };
 }

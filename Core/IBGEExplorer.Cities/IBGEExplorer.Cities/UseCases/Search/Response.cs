@@ -12,6 +12,4 @@ public class Response
     public string IBGECode { get; set; } = null!;
     public string StateName { get; set; } = null!;
     public string CityName { get; set; } = null!;
-
-
 }

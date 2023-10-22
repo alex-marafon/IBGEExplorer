@@ -21,27 +21,22 @@ public class CityMap : IEntityTypeConfiguration<City>
         builder.HasIndex(x => x.IBGECode)
             .IsUnique();
 
-        builder.Property(x => x.StateName)
-            .HasColumnName("StateName")
-            .HasColumnType("NVARCHAR")
-            .HasMaxLength(50);
-
-        builder.Property(x => x.CityName)
-            .IsRequired()
-            .HasColumnName("CityName")
-            .HasColumnType("NVARCHAR")
-            .HasMaxLength(50);
-
-        builder.Property(x => x.UF)
-            .IsRequired()
-            .HasColumnName("UF")
-            .HasColumnType("NVARCHAR")
-            .HasMaxLength(5);
-
         builder.Property(x => x.Active)
             .IsRequired()
             .HasColumnName("Active")
             .HasColumnType("BIT")
             .HasDefaultValue(true);
+
+        builder.Property(x => x.IdCounty)
+            .IsRequired()
+            .HasColumnName("IdCounty")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(255);
+
+        builder.HasOne(city => city.County)
+            .WithOne(county => county.City)
+            .HasForeignKey<County>(county => county.IdCity)
+            .HasConstraintName("Fk_City_County")
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

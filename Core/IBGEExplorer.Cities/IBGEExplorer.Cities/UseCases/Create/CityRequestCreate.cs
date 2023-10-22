@@ -12,7 +12,7 @@ public class CityRequestCreate
     new City()
     {
         IBGECode = request.IBGECode,
-        StateName = request.StateName,
-        CityName = request.CityName
+        //StateName = request.StateName,
+        //CityName = request.CityName
     };
 }

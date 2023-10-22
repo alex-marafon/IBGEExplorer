@@ -23,12 +23,12 @@ public class Repository : IRepository
     public Task<List<City>?> GetCityByStateAsNoTracking(string stateName) =>
         _context.City
         .AsNoTracking()
-        .Where(x => x.StateName == stateName)
+        .Where(x => x.County.Name == stateName)
         .ToListAsync()!;
 
     public Task<List<City>?> GetByCityNameAsNoTracking(string cityName) =>
         _context.City
         .AsNoTracking()
-        .Where(x => x.CityName == cityName)
+        .Where(x => x.County.Name == cityName)
         .ToListAsync()!;
 }

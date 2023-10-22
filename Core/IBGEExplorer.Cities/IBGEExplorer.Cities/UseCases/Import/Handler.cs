@@ -29,48 +29,48 @@ public class Handler
             return new BaseResponse<ResponseData>("File must be smaller than 512 kb", "IMP-0003", 400);
 
         var _city = new List<City>();
-        int x = 0;
+        //int x = 0;
         try
         {
-            using (var excelWorkbook = new XLWorkbook(file.OpenReadStream()))
-            {
-                var abaMinicipio = excelWorkbook.Worksheet(2).RowsUsed().Skip(1);
-                var _county = new List<County>();
-                var _state = new List<State>();
+            //using (var excelWorkbook = new XLWorkbook(file.OpenReadStream()))
+            //{
+            //    var abaMinicipio = excelWorkbook.Worksheet(2).RowsUsed().Skip(1);
+            //    var _county = new List<County>();
+            //    var _state = new List<State>();
 
-                foreach (var dataRow in abaMinicipio)
-                {
-                    var county = new County();
-                    county.CodigoMunicipio = dataRow.Cell(1).Value.ToString()?.Trim();
-                    county.NomeMunicipio = dataRow.Cell(2).Value.ToString();
-                    county.CodigoUfMunicipio = dataRow.Cell(3).Value.ToString().Trim();
-                    _county.Add(county);
-                }
+            //    foreach (var dataRow in abaMinicipio)
+            //    {
+            //        var county = new County();
+            //        county.Code = dataRow.Cell(1).Value.ToString()?.Trim();
+            //        county.NomeMunicipio = dataRow.Cell(2).Value.ToString();
+            //        county.CodigoUfMunicipio = dataRow.Cell(3).Value.ToString().Trim();
+            //        _county.Add(county);
+            //    }
 
-                var abaUf = excelWorkbook.Worksheet(1).RowsUsed().Skip(1);
+            //    var abaUf = excelWorkbook.Worksheet(1).RowsUsed().Skip(1);
 
-                foreach (var dataRow in abaUf)
-                {
-                    var state = new State();
-                    state.CodeUF = dataRow.Cell(1).Value.ToString().Trim();
-                    state.UF = dataRow.Cell(2).Value.ToString().Trim();
-                    state.UFName = dataRow.Cell(3).Value.ToString();
-                    _state.Add(state);
-                }
+            //    foreach (var dataRow in abaUf)
+            //    {
+            //        var state = new State();
+            //        state.Code = dataRow.Cell(1).Value.ToString().Trim();
+            //        state.Acronym = dataRow.Cell(2).Value.ToString().Trim();
+            //        state.Name = dataRow.Cell(3).Value.ToString();
+            //        _state.Add(state);
+            //    }
 
-                foreach (var item in _county)
-                {
-                    var city = new City();
-                    var uf = _state.FirstOrDefault(x => x.CodeUF.Equals(item.CodigoUfMunicipio));
+            //    foreach (var item in _county)
+            //    {
+            //        var city = new City();
+            //        var uf = _state.FirstOrDefault(x => x.Code.Equals(item.CodigoUfMunicipio));
 
-                    city.IBGECode = item.CodigoMunicipio;
-                    city.CityName = item.NomeMunicipio;
-                    city.UF = uf.UF;
-                    city.StateName = uf.UFName;
-                    _city.Add(city);
-                    x++;
-                }
-            }
+            //        city.IBGECode = item.Code;
+            //        city.CityName = item.NomeMunicipio;
+            //        city.UF = uf.UF;
+            //        city.StateName = uf.UFName;
+            //        _city.Add(city);
+            //        x++;
+            //    }
+            //}
         }
         catch (Exception ex)
         {

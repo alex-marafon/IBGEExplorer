@@ -1,7 +1,13 @@
-﻿namespace IBGEExplorer.Cities.Entities;
-public class County
+﻿using IBGEExplorer.Shared.Entities;
+
+namespace IBGEExplorer.Cities.Entities;
+public class County : Entity
 {
-    public string CodigoMunicipio { get; set; } 
-    public string NomeMunicipio { get; set; } 
-    public string CodigoUfMunicipio { get; set; }
+    public string Code { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public string IdState { get; set; } = null!;
+    public int IdCity { get; set; }
+
+    public State State { get; set; } = null!;
+    public City City { get; set; } = null!;
 }
