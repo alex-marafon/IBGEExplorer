@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBGEExplorer.Account", "Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBGEExplorer.Shared", "Core\IBGEExplorer.Shared\IBGEExplorer.Shared.csproj", "{908E3713-2CD7-4E4C-8F8A-6D27BC3018CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IBGEExplorer.Cities", "Core\IBGEExplorer.Cities\IBGEExplorer.Cities\IBGEExplorer.Cities.csproj", "{D58D4AEE-4362-4837-8E84-E4DA94348621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IBGEExplorer.Cities", "Core\IBGEExplorer.Cities\IBGEExplorer.Cities\IBGEExplorer.Cities.csproj", "{D58D4AEE-4362-4837-8E84-E4DA94348621}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
