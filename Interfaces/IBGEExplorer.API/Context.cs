@@ -22,10 +22,12 @@ public static class Context
         builder.Services.AddTransient<GetAccount.Handler>();
         builder.Services.AddTransient<GetRole.Handler>();
         builder.Services.AddTransient<CreateUserRole.Handler>();
+
         //city
         builder.Services.AddTransient<CreateCity.Handler>();
         builder.Services.AddTransient<UpdateCity.Handler>();
         builder.Services.AddTransient<GetCity.Handler>();
+        builder.Services.AddTransient<ImportCity.Handler>();
 
         //user
         builder.Services.AddScoped
@@ -38,6 +40,7 @@ public static class Context
             <CreateRole.Contracts.IRepository, Data.Contexts.Roles.UsesCases.Create.Repository>();
         builder.Services.AddScoped
             <CreateUserRole.Contracts.IRepository, Data.Contexts.UserRole.UsesCases.Create.Repository>();
+
         //city
         builder.Services.AddScoped
             <CreateCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Create.Repository>();
@@ -45,5 +48,7 @@ public static class Context
             <UpdateCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Update.Repository>();
         builder.Services.AddScoped
             <GetCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Search.Repository>();
+        builder.Services.AddScoped
+            <ImportCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Import.Repository>();
     }
 }

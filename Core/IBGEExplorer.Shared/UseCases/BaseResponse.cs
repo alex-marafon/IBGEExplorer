@@ -10,6 +10,7 @@ public class BaseResponse<TData> : IResponse
     public int StatusCode { get; }
     
     public bool IsSuccess => StatusCode <= 399;
+    
     public IReadOnlyCollection<Error>? Errors
         => _errors?.ToArray();
 

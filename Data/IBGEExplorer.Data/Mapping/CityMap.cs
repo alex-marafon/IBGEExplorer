@@ -32,6 +32,12 @@ public class CityMap : IEntityTypeConfiguration<City>
             .HasColumnType("NVARCHAR")
             .HasMaxLength(50);
 
+        builder.Property(x => x.UF)
+            .IsRequired()
+            .HasColumnName("UF")
+            .HasColumnType("NVARCHAR")
+            .HasMaxLength(5);
+
         builder.Property(x => x.Active)
             .IsRequired()
             .HasColumnName("Active")

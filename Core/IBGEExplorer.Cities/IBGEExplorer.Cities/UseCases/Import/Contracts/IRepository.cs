@@ -3,6 +3,7 @@
 namespace IBGEExplorer.Cities.UseCases.Import.Contracts;
 public interface IRepository
 {
-    Task<City?> SaveCityAsync(City city);
+    Task SaveListCityAsync(IEnumerable<City> city);
+    Task SaveCityAsync(City city);
 
 }

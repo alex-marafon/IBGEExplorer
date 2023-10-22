@@ -3,7 +3,6 @@ using IBGEExplorer.Account.UseCases.Create.Contracts;
 using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
-using System.Data;
 
 namespace IBGEExplorer.Account.UseCases.Create;
 
@@ -25,6 +24,9 @@ public class Handler
 
         #region Validação
 
+        if (!account.Email.Contains("@") || account.Password.Length < 8 || account.Password.Length > 16)
+            return new BaseResponse<ResponseData>("User with this email already exists", "ACT-A0001");
+
         #endregion
 
         #region Verificar se existe
@@ -32,7 +34,7 @@ public class Handler
         bool checkIfAlreadyExists = await _repository.IsAlreadyRegisteredAccountAsync(account.Email);
 
         if (checkIfAlreadyExists)
-            return new BaseResponse<ResponseData>("User with this email already exists", "ACT-A0001");
+            return new BaseResponse<ResponseData>("User with this email already exists", "ACT-A0002");
 
         #endregion
 
@@ -42,13 +44,15 @@ public class Handler
         {
             user = account;
             user.SetHashSalt(StringExtensions.CreateSalt());
+            user.Password = StringExtensions.GenerateSha256Hash(user.HashSalt, user.Password);
+            user.SetHashSalt(StringExtensions.CreateSalt());
             user.Password = StringExtensions.GenerateSha256Hash(user.HashSalt!, user.Password);
 
             roles = _roleHandler.GetRolesByIds(account.RoleIds);            
         }
         catch (Exception ex)
         {
-            return new BaseResponse<ResponseData>(ex.Message, "ACT-A0002", 500);
+            return new BaseResponse<ResponseData>(ex.Message, "ACT-A0003", 500);
         }
 
         #endregion
@@ -58,7 +62,7 @@ public class Handler
         try
         {
             if(roles is null || !roles.Any())
-                return new BaseResponse<ResponseData>("The role Ids are invalid!", "ACT-A0003",400);
+                return new BaseResponse<ResponseData>("The role Ids are invalid!", "ACT-A0004",400);
 
             await _repository.Create(user);
             await _userRoleHandler.CreateAsync(user, roles);
@@ -66,8 +70,8 @@ public class Handler
         catch(Exception ex)
         {
             Console.WriteLine(ex);
-            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0004");
-            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0004",
+            await _logger.LogAsync($"An error occurred while saving the user in database", "ACT-A0005");
+            return new BaseResponse<ResponseData>("An error occurred while saving the user in database", "ACT-A0005",
                 400);
         }
 

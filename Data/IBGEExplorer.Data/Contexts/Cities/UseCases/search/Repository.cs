@@ -31,4 +31,9 @@ public class Repository : IRepository
         .AsNoTracking()
         .Where(x => x.CityName == cityName)
         .ToListAsync()!;
+
+    public Task<List<City>?> GetByUfAsNoTracking(string uf)
+    {
+        throw new NotImplementedException();
+    }
 }

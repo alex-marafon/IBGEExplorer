@@ -2,7 +2,7 @@
 
 namespace IBGEExplorer.Shared.Services.Jwt;
 
-public static class AuthorizationConfigurator //: IAuthorizationConfigurator
+public static class AuthorizationConfigurator
 {
     public static void AuthorizationConfigure(this IServiceCollection services)
     {

@@ -13,6 +13,7 @@ public class Repository : IRepository
 
     public async Task<bool> IsAlreadyRegisteredAccountAsync(string IBGECode) =>
         await _context.City.AnyAsync(x => x.IBGECode == IBGECode);
+
     public async Task CreateAsync(City city)
     {
         await _context.City.AddAsync(city);
