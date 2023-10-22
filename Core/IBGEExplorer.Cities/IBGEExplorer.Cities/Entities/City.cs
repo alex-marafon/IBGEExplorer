@@ -7,6 +7,7 @@ public class City : Entity<int>
     public string IBGECode { get; set; } = null!;
     public string CityName { get; set; } = null!;
     public string StateName { get; set; } = null!;
+    public string UF { get; set; } = null!;
     public bool? Active { get; private set; }
 
     public void Activate(bool active)
@@ -18,7 +19,9 @@ public class City : Entity<int>
     {
         IBGECode = city.IBGECode;
         CityName = city.CityName;
+        UF= city.UF;
         StateName = city.StateName;
+
     }
 
     public static implicit operator Response(City city) =>

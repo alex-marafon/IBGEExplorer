@@ -2,6 +2,7 @@ using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Shared.Services.Jwt;
+using IBGEExplorer.Shared.Services.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 
@@ -9,13 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMvcCore().AddDataAnnotations();
+
+//builder.Services.SwaggerConfigure();    coloquei o Swagger Gen porem apresenta erro.
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "IBGEExplorer",
-        Description = "Developed by BRA-VO Team",
-        Contact = new OpenApiContact { Name = "BRA-VO TEAM", Email = "bravoteam@gmail.com" },
+        Description = "Developed by Desafio Balta",
+        Contact = new OpenApiContact { Name = "Time ABR", Email = "timeABR@gmail.com" },
         License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
     });
 
@@ -30,20 +33,24 @@ builder.Services.AddSwaggerGen(x =>
     });
 
     x.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
+            new OpenApiSecurityScheme
             {
-                new OpenApiSecurityScheme
+                Reference = new OpenApiReference
                 {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                new string[] {}
-            }
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
     });
 });
+
+
+
+
 
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
@@ -200,6 +207,19 @@ void CityEndpoints(WebApplication app)
     .Produces(StatusCodes.Status404NotFound)
     .WithName("GetByCity")
     .WithTags("IBGE");
+
+    app.MapPost("api/v1/import", [AllowAnonymous] async (ImportCity.Handler handler, IFormFile request) =>
+        {
+            var baseResponse = await handler.ImportCityAsync(request);
+            return baseResponse.StatusCode == 201 ?
+                Results.Ok(baseResponse) :
+                Results.BadRequest(baseResponse);
+        })
+        .Produces(StatusCodes.Status201Created)
+        .Produces(StatusCodes.Status500InternalServerError)
+        .WithName("ImportCity")
+        .WithTags("Cidades");
 }
+
 
 app.Run();

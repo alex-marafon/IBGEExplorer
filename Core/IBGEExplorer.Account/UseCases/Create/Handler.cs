@@ -3,7 +3,6 @@ using IBGEExplorer.Account.UseCases.Create.Contracts;
 using IBGEExplorer.Shared.Extensions;
 using IBGEExplorer.Shared.Services.Contracts;
 using IBGEExplorer.Shared.UseCases;
-using System.Data;
 
 namespace IBGEExplorer.Account.UseCases.Create;
 
@@ -41,6 +40,8 @@ public class Handler
         try
         {
             user = account;
+            user.SetHashSalt(StringExtensions.CreateSalt());
+            user.Password = StringExtensions.GenerateSha256Hash(user.HashSalt, user.Password);
             user.SetHashSalt(StringExtensions.CreateSalt());
             user.Password = StringExtensions.GenerateSha256Hash(user.HashSalt!, user.Password);
 
