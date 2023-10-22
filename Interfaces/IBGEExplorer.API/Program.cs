@@ -48,10 +48,6 @@ builder.Services.AddSwaggerGen(x =>
     });
 });
 
-
-
-
-
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
@@ -61,11 +57,14 @@ builder.Services.AuthorizationConfigure();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseCors(options => options
+    .AllowAnyOrigin()
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+);
 
 app.UseHttpsRedirection();
 
@@ -220,6 +219,5 @@ void CityEndpoints(WebApplication app)
         .WithName("ImportCity")
         .WithTags("Cidades");
 }
-
 
 app.Run();
