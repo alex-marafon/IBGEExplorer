@@ -2,7 +2,7 @@
 using IBGEExplorer.Cities.UseCases.Search.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace IBGEExplorer.Data.Contexts.Cities.UseCases.Search;
+namespace IBGEExplorer.Data.Contexts.Cities.UseCases.search;
 
 public class Repository : IRepository
 {

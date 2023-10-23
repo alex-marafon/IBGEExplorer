@@ -222,7 +222,7 @@ void CityEndpoints(WebApplication app)
         .WithTags("IBGE");
 
 
-    app.MapPost("api/v1/import", [AllowAnonymous] async (ImportCity.Handler handler, IFormFile request) =>
+    app.MapPost("api/v1/import", [Authorize] async (ImportCity.Handler handler, IFormFile request) =>
         {
             var baseResponse = await handler.ImportCityAsync(request);
             return baseResponse.StatusCode == 201 ?

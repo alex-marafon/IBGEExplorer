@@ -1,6 +1,5 @@
 ﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Shared.Extensions;
-using IBGEExplorer.Shared.ValueObjects;
 
 namespace IBGEExplorer.Tests.Contexts;
 

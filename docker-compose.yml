@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:   
+  sapezal_api:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: Api_IBGEExplorer
+    networks:
+      - backend
+    ports:
+
+      - "44300:44300"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:44300
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Sb0sAc8PBp2aRw4xeBG6
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - TZ=America/Sao_Paulo
+    volumes:
+      - ~/.aspnet/https:/https:ro
+
+
+sql_server:
+    image: mcr.microsoft.com/mssql/server
+    container_name: IBGEExplorerDB
+    networks:
+      - backend
+    environment:
+      SA_PASSWORD: "SuaSenhaAqui"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_server_data:/var/opt/mssql
+
+networks:
+  backend:
+  driver: bridge  
+
+volumes:
+  sql_server_data:
