@@ -2,7 +2,6 @@ using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Shared.Services.Jwt;
-using IBGEExplorer.Shared.Services.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 
@@ -55,16 +54,23 @@ builder.AddServices();
 builder.Services.AuthenticationConfigure();
 builder.Services.AuthorizationConfigure();
 
+var origins = "originsUrl";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "originsUrl",
+        policy =>
+        {
+            policy.WithOrigins("*");
+        });
+});
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseCors(options => options
-    .AllowAnyOrigin()
-    .AllowAnyHeader()
-    .AllowAnyMethod()
-);
+app.UseCors(origins);
 
 app.UseHttpsRedirection();
 
