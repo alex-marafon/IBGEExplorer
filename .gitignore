@@ -484,3 +484,5 @@ $RECYCLE.BIN/
 *.swp
 /Interfaces/IBGEExplorer.API/Migrations/*
 /Interfaces/IBGEExplorer.API/Migrations/
+/Interfaces/IBGEExplorer.API/appsettings.Development.json
+/Interfaces/IBGEExplorer.API/appsettings.prd.json

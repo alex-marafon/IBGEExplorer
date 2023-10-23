@@ -78,9 +78,19 @@ public class Handler
             return new BaseResponse<ResponseData>("Error process file:", "IMP-0004", 400);
         }
 
+        foreach (var city in _city)
+        {
+           bool exist = await _repository.CodeIbgeExist(city.IBGECode);
+            if (exist)
+            {
+                await _logger.LogAsync($"Import code IBGE duplicate code: {city.IBGECode} ");
+                return new BaseResponse<ResponseData>(new ResponseData($"File not import code IBGE duplicate code: {city.IBGECode}"), 400);
+            }
+        }
+
         await _repository.SaveListCityAsync(_city);
 
         await _logger.LogAsync($"News cities created");
-        return new BaseResponse<ResponseData>(new ResponseData("Cities created successfully"), 201);
+        return new BaseResponse<ResponseData>(new ResponseData($"Cities created successfully, all register {_city.Count}"), 201);
     }
 }

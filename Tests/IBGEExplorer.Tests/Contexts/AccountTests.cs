@@ -74,13 +74,4 @@ public class AccountTests
     {
         Assert.Fail("");
     }
-
-    //[Fact]
-    //public void ShouldChangeUsername()
-    //{
-    //    User user = validUser;
-    //   // user.ChangeUserName(new Name("Maria", "Silva"));
-        
-    //    Assert.NotStrictEqual(user.FullName.ToString(), validUser.FullName.ToString());
-    //}
 }

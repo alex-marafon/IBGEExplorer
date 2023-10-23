@@ -1,4 +1,6 @@
-﻿namespace IBGEExplorer.Account.UseCases.Create.Contracts;
+﻿using IBGEExplorer.Account.UseCases.Create.Contracts;
+
+namespace IBGEExplorer.Account.UseCases.Create;
 
 public class ResponseData : IResponseData
 {

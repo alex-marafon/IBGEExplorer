@@ -2,16 +2,12 @@ using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Shared.Services.Jwt;
-using IBGEExplorer.Shared.Services.Swagger;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddMvcCore().AddDataAnnotations();
-
-//builder.Services.SwaggerConfigure();    coloquei o Swagger Gen porem apresenta erro.
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1", new OpenApiInfo
@@ -48,10 +44,6 @@ builder.Services.AddSwaggerGen(x =>
     });
 });
 
-
-
-
-
 builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
@@ -59,13 +51,21 @@ builder.AddServices();
 builder.Services.AuthenticationConfigure();
 builder.Services.AuthorizationConfigure();
 
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+var origins = "originsUrl";
+builder.Services.AddCors(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    options.AddPolicy(name: "originsUrl",
+        policy =>
+        {
+            policy.WithOrigins("*");
+        });
+});
+
+var app = builder.Build();
+app.UseCors(origins);
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -77,7 +77,7 @@ CityEndpoints(app);
 
 void UserEndpoints(WebApplication app)
 {
-    app.MapPost("api/v1/account", [Authorize] async (CreateAccount.Handler handler, CreateAccount.Request account) =>
+    app.MapPost("api/v1/account", [AllowAnonymous] async (CreateAccount.Handler handler, CreateAccount.Request account) =>
     {
         var baseResponse = await handler.CreateAccountAsync(account);
         return baseResponse.StatusCode == 201 ?
@@ -86,8 +86,8 @@ void UserEndpoints(WebApplication app)
     })
     .Produces(StatusCodes.Status201Created)
     .Produces(StatusCodes.Status500InternalServerError)
-    .WithName("CreateUser")
-    .WithTags("Usuario");
+    .WithName("Usuario")
+    .WithTags("CreateUser");
 
     app.MapPost("api/v1/token", [AllowAnonymous] async (GetAccount.Handler handler, RequestLogin account) =>
     {
@@ -106,7 +106,7 @@ void UserEndpoints(WebApplication app)
     .WithTags("Usuario")
     .WithName("UserLoginToken");
 
-    app.MapGet("api/v1/account/{id}", [AllowAnonymous] async (GetAccount.Handler handler, int id) =>
+    app.MapGet("api/v1/account/{id}", [Authorize] async (GetAccount.Handler handler, int id) =>
     {
         var baseResponse = await handler.GetOneByIdAsync(id);
         if (baseResponse.StatusCode == 400)
@@ -197,7 +197,7 @@ void CityEndpoints(WebApplication app)
 
     app.MapGet("api/v1/ibge/city", [AllowAnonymous] async (GetCity.Handler handler, string cityName) =>
     {
-        var baseResponse = await handler.GetByStateNameAsync(cityName);
+        var baseResponse = await handler.GetByCityNameAsync(cityName);
 
         return baseResponse.StatusCode == 200 ?
             Results.Ok(baseResponse) :
@@ -207,6 +207,20 @@ void CityEndpoints(WebApplication app)
     .Produces(StatusCodes.Status404NotFound)
     .WithName("GetByCity")
     .WithTags("IBGE");
+
+    app.MapGet("api/v1/ibge/uf", [AllowAnonymous] async (GetCity.Handler handler, string uf) =>
+        {
+            var baseResponse = await handler.GetByUfAsync(uf);
+
+            return baseResponse.StatusCode == 200 ?
+                Results.Ok(baseResponse) :
+                Results.NotFound(baseResponse);
+        })
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
+        .WithName("GetByUf")
+        .WithTags("IBGE");
+
 
     app.MapPost("api/v1/import", [AllowAnonymous] async (ImportCity.Handler handler, IFormFile request) =>
         {
