@@ -487,3 +487,4 @@ $RECYCLE.BIN/
 /Interfaces/IBGEExplorer.API/Migrations/
 /Interfaces/IBGEExplorer.API/appsettings.Development.json
 /Interfaces/IBGEExplorer.API/appsettings.prd.json
+/Interfaces/IBGEExplorer.API/appsettings.json
