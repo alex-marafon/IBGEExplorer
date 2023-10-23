@@ -6,14 +6,15 @@ services:
       dockerfile: ./Dockerfile
       context: .
     container_name: Api_IBGEExplorer
-    networks:
-      - backend
+    #networks:
+    #   - backend
     ports:
-
+      # - "8000:8000"
       - "44300:44300"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:44300
+      # - ASPNETCORE_URLS=http://+:8000
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Sb0sAc8PBp2aRw4xeBG6
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - TZ=America/Sao_Paulo
@@ -21,22 +22,22 @@ services:
       - ~/.aspnet/https:/https:ro
 
 
-sql_server:
-    image: mcr.microsoft.com/mssql/server
-    container_name: IBGEExplorerDB
-    networks:
-      - backend
-    environment:
-      SA_PASSWORD: "SuaSenhaAqui"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
-    volumes:
-      - sql_server_data:/var/opt/mssql
+# sql_server:
+#     image: mcr.microsoft.com/mssql/server
+#     container_name: IBGEExplorerDB
+#     networks:
+#       - backend
+#     environment:
+#       SA_PASSWORD: "SuaSenhaAqui"
+#       ACCEPT_EULA: "Y"
+#     ports:
+#       - "1433:1433"
+#     volumes:
+#       - sql_server_data:/var/opt/mssql
 
-networks:
-  backend:
-  driver: bridge  
+# # networks:
+# #   backend:
+# #   driver: bridge  
 
-volumes:
-  sql_server_data:
+# volumes:
+#   sql_server_data:
