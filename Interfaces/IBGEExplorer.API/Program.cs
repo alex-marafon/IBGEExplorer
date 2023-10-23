@@ -235,5 +235,4 @@ void CityEndpoints(WebApplication app)
         .WithTags("Cidades");
 }
 
-
 app.Run();
