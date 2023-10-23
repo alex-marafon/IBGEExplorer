@@ -1,5 +1,6 @@
 ﻿using IBGEExplorer.Cities.Entities;
 using IBGEExplorer.Cities.UseCases.Import.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.Data.Contexts.Cities.UseCases.Import;
 public class Repository : IRepository
@@ -21,7 +22,13 @@ public class Repository : IRepository
         SaveAsync();
     }
 
-    private void SaveAsync() =>
+    public async Task<bool> CodeIbgeExist(string codeIbge)
+    {
+          var codeExist =   _context.City.FirstOrDefaultAsync(x => x.IBGECode == codeIbge);
+          return codeExist != null;
+    }
+
+private void SaveAsync() =>
         _context.SaveChanges();
   
 }

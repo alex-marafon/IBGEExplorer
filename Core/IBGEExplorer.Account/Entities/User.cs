@@ -30,9 +30,4 @@ public class User : Entity<int>
 
         return new Response(user.FirstName!, user.LastName!, user.Email, roles);
     }
-
-    //public Name? FullName { get; set; }
-
-    //public void ChangeUserName(Name name)
-    //    => FullName = name;
 }

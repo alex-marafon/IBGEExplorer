@@ -2,7 +2,7 @@
 using IBGEExplorer.Cities.UseCases.Search.Contracts;
 using Microsoft.EntityFrameworkCore;
 
-namespace IBGEExplorer.Data.Contexts.Cities.UseCases.Search;
+namespace IBGEExplorer.Data.Contexts.Cities.UseCases.search;
 
 public class Repository : IRepository
 {
@@ -28,12 +28,14 @@ public class Repository : IRepository
 
     public Task<List<City>?> GetByCityNameAsNoTracking(string cityName) =>
         _context.City
-        .AsNoTracking()
-        .Where(x => x.CityName == cityName)
-        .ToListAsync()!;
+            .AsNoTracking()
+            .Where(x => x.CityName == cityName)
+            .ToListAsync()!;
 
-    public Task<List<City>?> GetByUfAsNoTracking(string uf)
-    {
-        throw new NotImplementedException();
-    }
+    public Task<List<City>?> GetByUfAsNoTracking(string uf) =>
+        _context.City
+            .AsNoTracking()
+            .Where(x => x.UF == uf)
+            .ToListAsync()!;
+
 }

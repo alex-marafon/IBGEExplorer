@@ -1,4 +1,5 @@
 ﻿using IBGEExplorer.Data;
+using IBGEExplorer.Data.Contexts.Cities.UseCases.search;
 using Microsoft.EntityFrameworkCore;
 
 namespace IBGEExplorer.API;
@@ -47,7 +48,7 @@ public static class Context
         builder.Services.AddScoped
             <UpdateCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Update.Repository>();
         builder.Services.AddScoped
-            <GetCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Search.Repository>();
+            <GetCity.Contracts.IRepository, Repository>();
         builder.Services.AddScoped
             <ImportCity.Contracts.IRepository, Data.Contexts.Cities.UseCases.Import.Repository>();
     }

@@ -8,9 +8,6 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddMvcCore().AddDataAnnotations();
-
-//builder.Services.SwaggerConfigure();    coloquei o Swagger Gen porem apresenta erro.
 builder.Services.AddSwaggerGen(x =>
 {
     x.SwaggerDoc("v1", new OpenApiInfo
@@ -55,7 +52,6 @@ builder.Services.AuthenticationConfigure();
 builder.Services.AuthorizationConfigure();
 
 var origins = "originsUrl";
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "originsUrl",
@@ -66,11 +62,10 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseCors(origins);
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseCors(origins);
 
 app.UseHttpsRedirection();
 
@@ -82,7 +77,7 @@ CityEndpoints(app);
 
 void UserEndpoints(WebApplication app)
 {
-    app.MapPost("api/v1/account", [Authorize] async (CreateAccount.Handler handler, CreateAccount.Request account) =>
+    app.MapPost("api/v1/account", [AllowAnonymous] async (CreateAccount.Handler handler, CreateAccount.Request account) =>
     {
         var baseResponse = await handler.CreateAccountAsync(account);
         return baseResponse.StatusCode == 201 ?
@@ -91,8 +86,8 @@ void UserEndpoints(WebApplication app)
     })
     .Produces(StatusCodes.Status201Created)
     .Produces(StatusCodes.Status500InternalServerError)
-    .WithName("CreateUser")
-    .WithTags("Usuario");
+    .WithName("Usuario")
+    .WithTags("CreateUser");
 
     app.MapPost("api/v1/token", [AllowAnonymous] async (GetAccount.Handler handler, RequestLogin account) =>
     {
@@ -111,7 +106,7 @@ void UserEndpoints(WebApplication app)
     .WithTags("Usuario")
     .WithName("UserLoginToken");
 
-    app.MapGet("api/v1/account/{id}", [AllowAnonymous] async (GetAccount.Handler handler, int id) =>
+    app.MapGet("api/v1/account/{id}", [Authorize] async (GetAccount.Handler handler, int id) =>
     {
         var baseResponse = await handler.GetOneByIdAsync(id);
         if (baseResponse.StatusCode == 400)
@@ -202,7 +197,7 @@ void CityEndpoints(WebApplication app)
 
     app.MapGet("api/v1/ibge/city", [AllowAnonymous] async (GetCity.Handler handler, string cityName) =>
     {
-        var baseResponse = await handler.GetByStateNameAsync(cityName);
+        var baseResponse = await handler.GetByCityNameAsync(cityName);
 
         return baseResponse.StatusCode == 200 ?
             Results.Ok(baseResponse) :
@@ -213,7 +208,21 @@ void CityEndpoints(WebApplication app)
     .WithName("GetByCity")
     .WithTags("IBGE");
 
-    app.MapPost("api/v1/import", [AllowAnonymous] async (ImportCity.Handler handler, IFormFile request) =>
+    app.MapGet("api/v1/ibge/uf", [AllowAnonymous] async (GetCity.Handler handler, string uf) =>
+        {
+            var baseResponse = await handler.GetByUfAsync(uf);
+
+            return baseResponse.StatusCode == 200 ?
+                Results.Ok(baseResponse) :
+                Results.NotFound(baseResponse);
+        })
+        .Produces(StatusCodes.Status200OK)
+        .Produces(StatusCodes.Status404NotFound)
+        .WithName("GetByUf")
+        .WithTags("IBGE");
+
+
+    app.MapPost("api/v1/import", [Authorize] async (ImportCity.Handler handler, IFormFile request) =>
         {
             var baseResponse = await handler.ImportCityAsync(request);
             return baseResponse.StatusCode == 201 ?

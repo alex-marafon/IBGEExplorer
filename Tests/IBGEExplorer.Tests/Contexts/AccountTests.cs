@@ -1,6 +1,5 @@
 ﻿using IBGEExplorer.Account.Entities;
 using IBGEExplorer.Shared.Extensions;
-using IBGEExplorer.Shared.ValueObjects;
 
 namespace IBGEExplorer.Tests.Contexts;
 
@@ -74,13 +73,4 @@ public class AccountTests
     {
         Assert.Fail("");
     }
-
-    //[Fact]
-    //public void ShouldChangeUsername()
-    //{
-    //    User user = validUser;
-    //   // user.ChangeUserName(new Name("Maria", "Silva"));
-        
-    //    Assert.NotStrictEqual(user.FullName.ToString(), validUser.FullName.ToString());
-    //}
 }
