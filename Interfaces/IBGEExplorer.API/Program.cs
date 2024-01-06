@@ -48,8 +48,7 @@ builder.AddBaseConfiguration();
 builder.AddBaseServices();
 builder.AddServices();
 
-builder.Services.AuthenticationConfigure();
-builder.Services.AuthorizationConfigure();
+builder.Services.AddJwtAuthentication();
 
 var origins = "originsUrl";
 builder.Services.AddCors(options =>

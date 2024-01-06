@@ -41,7 +41,7 @@ public class Handler
             if(verificaSenha != user.Password)
                 return new BaseResponse<string>("Invalid user", "USR-A002");           
 
-            await _logger.LogAsync($"Return token for user {user.Email}");
+            //await _logger.LogAsync($"Return token for user {user.Email}");
             return new BaseResponse<string>(GetToken(user));
         }
         catch
