@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Context\Organization\" />
+    <Folder Include="Context\User\UseCases\Get\" />
+    <Folder Include="Context\User\UseCases\Desable\" />
+    <Folder Include="Mapping\Organization\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\IBGEExplorer.Account\IBGEExplorer.Account.csproj" />
+  </ItemGroup>
+
+</Project>

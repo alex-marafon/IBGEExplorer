@@ -2,7 +2,6 @@ using IBGEExplorer.Account.UseCases.Login;
 using IBGEExplorer.API;
 using IBGEExplorer.API.Extensions;
 using IBGEExplorer.Shared.Services.Jwt;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,17 +50,15 @@ builder.AddServices();
 builder.Services.AddJwtAuthentication();
 
 var origins = "originsUrl";
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: "originsUrl",
-        policy =>
-        {
-            policy.WithOrigins("*");
-        });
-});
+builder.Services.AddCors();
 
 var app = builder.Build();
-app.UseCors(origins);
+app.UseCors(c =>
+{
+    c.AllowAnyHeader();
+    c.AllowAnyMethod();
+    c.AllowAnyOrigin();
+});
 
 app.UseSwagger();
 app.UseSwaggerUI();
@@ -74,9 +71,11 @@ app.UseAuthorization();
 UserEndpoints(app);
 CityEndpoints(app);
 
+
+#region Endpoints
 void UserEndpoints(WebApplication app)
 {
-    app.MapPost("api/v1/account", [AllowAnonymous] async (CreateAccount.Handler handler, CreateAccount.Request account) =>
+    app.MapPost("api/v1/account", async (CreateAccount.Handler handler, CreateAccount.Request account) =>
     {
         var baseResponse = await handler.CreateAccountAsync(account);
         return baseResponse.StatusCode == 201 ?
@@ -88,7 +87,7 @@ void UserEndpoints(WebApplication app)
     .WithName("Usuario")
     .WithTags("CreateUser");
 
-    app.MapPost("api/v1/token", [AllowAnonymous] async (GetAccount.Handler handler, RequestLogin account) =>
+    app.MapPost("api/v1/token", async (GetAccount.Handler handler, RequestLogin account) =>
     {
         var baseResponse = await handler.GetOneByEmailPasswordAsync(account);
 
@@ -105,7 +104,7 @@ void UserEndpoints(WebApplication app)
     .WithTags("Usuario")
     .WithName("UserLoginToken");
 
-    app.MapGet("api/v1/account/{id}", [Authorize] async (GetAccount.Handler handler, int id) =>
+    app.MapGet("api/v1/account/{id}", async (GetAccount.Handler handler, int id) =>
     {
         var baseResponse = await handler.GetOneByIdAsync(id);
         if (baseResponse.StatusCode == 400)
@@ -124,7 +123,7 @@ void UserEndpoints(WebApplication app)
 
 void CityEndpoints(WebApplication app)
 {
-    app.MapPost("api/v1/ibge", [Authorize] async (CreateCity.Handler handler, CreateCity.CityRequestCreate request) =>
+    app.MapPost("api/v1/ibge", async (CreateCity.Handler handler, CreateCity.CityRequestCreate request) =>
     {
         var baseResponse = await handler.CreateAsync(request);
         return baseResponse.StatusCode == 201 ?
@@ -136,7 +135,7 @@ void CityEndpoints(WebApplication app)
     .WithName("CreateIbge")
     .WithTags("IBGE");
 
-    app.MapPut("api/v1/ibge", [Authorize] async (UpdateCity.Handler handler, UpdateCity.CityRequestUpdate request) =>
+    app.MapPut("api/v1/ibge", async (UpdateCity.Handler handler, UpdateCity.CityRequestUpdate request) =>
     {
         var baseResponse = await handler.UpateAsync(request);
         if (baseResponse.StatusCode == 404)
@@ -152,7 +151,7 @@ void CityEndpoints(WebApplication app)
     .WithName("UpdateByIBGECode")
     .WithTags("IBGE");
 
-    app.MapDelete("api/v1/ibge", [Authorize] async (UpdateCity.Handler handler, string IBGECode) =>
+    app.MapDelete("api/v1/ibge", async (UpdateCity.Handler handler, string IBGECode) =>
     {
         var baseResponse = await handler.DeleteAsync(IBGECode);
         if (baseResponse.StatusCode == 404)
@@ -168,7 +167,7 @@ void CityEndpoints(WebApplication app)
     .WithName("DeleteByIBGECode")
     .WithTags("IBGE");
 
-    app.MapGet("api/v1/ibge", [AllowAnonymous] async (GetCity.Handler handler, string IBGECode) =>
+    app.MapGet("api/v1/ibge", async (GetCity.Handler handler, string IBGECode) =>
     {
         var baseResponse = await handler.GetOneByIBGECodeAsync(IBGECode);
 
@@ -181,7 +180,7 @@ void CityEndpoints(WebApplication app)
     .WithName("GetByIBGECode")
     .WithTags("IBGE");
 
-    app.MapGet("api/v1/ibge/state", [AllowAnonymous] async (GetCity.Handler handler, string stateName) =>
+    app.MapGet("api/v1/ibge/state", async (GetCity.Handler handler, string stateName) =>
     {
         var baseResponse = await handler.GetByStateNameAsync(stateName);
 
@@ -194,7 +193,7 @@ void CityEndpoints(WebApplication app)
     .WithName("GetByState")
     .WithTags("IBGE");
 
-    app.MapGet("api/v1/ibge/city", [AllowAnonymous] async (GetCity.Handler handler, string cityName) =>
+    app.MapGet("api/v1/ibge/city", async (GetCity.Handler handler, string cityName) =>
     {
         var baseResponse = await handler.GetByCityNameAsync(cityName);
 
@@ -207,31 +206,35 @@ void CityEndpoints(WebApplication app)
     .WithName("GetByCity")
     .WithTags("IBGE");
 
-    app.MapGet("api/v1/ibge/uf", [AllowAnonymous] async (GetCity.Handler handler, string uf) =>
-        {
-            var baseResponse = await handler.GetByUfAsync(uf);
+    app.MapGet("api/v1/ibge/uf", async (GetCity.Handler handler, string uf) =>
+    {
+        var baseResponse = await handler.GetByUfAsync(uf);
 
-            return baseResponse.StatusCode == 200 ?
-                Results.Ok(baseResponse) :
-                Results.NotFound(baseResponse);
-        })
+        return baseResponse.StatusCode == 200 ?
+            Results.Ok(baseResponse) :
+            Results.NotFound(baseResponse);
+    })
         .Produces(StatusCodes.Status200OK)
         .Produces(StatusCodes.Status404NotFound)
         .WithName("GetByUf")
         .WithTags("IBGE");
 
 
-    app.MapPost("api/v1/import", [Authorize] async (ImportCity.Handler handler, IFormFile request) =>
-        {
-            var baseResponse = await handler.ImportCityAsync(request);
-            return baseResponse.StatusCode == 201 ?
-                Results.Ok(baseResponse) :
-                Results.BadRequest(baseResponse);
-        })
+    app.MapPost("api/v1/import", async (ImportCity.Handler handler, IFormFile request) =>
+    {
+        var baseResponse = await handler.ImportCityAsync(request);
+        return baseResponse.StatusCode == 201 ?
+            Results.Ok(baseResponse) :
+            Results.BadRequest(baseResponse);
+    })
         .Produces(StatusCodes.Status201Created)
         .Produces(StatusCodes.Status500InternalServerError)
         .WithName("ImportCity")
         .WithTags("Cidades");
 }
+
+#endregion
+
+
 
 app.Run();

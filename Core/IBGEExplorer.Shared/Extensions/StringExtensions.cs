@@ -22,7 +22,7 @@ public static class StringExtensions
 
     public static string CreateSalt()
     {
-        var rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+        var rng = new RNGCryptoServiceProvider();
         var buff = new byte[15];
         rng.GetBytes(buff);
         return Convert.ToBase64String(buff);
